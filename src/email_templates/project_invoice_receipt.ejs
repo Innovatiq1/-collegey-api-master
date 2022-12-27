@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+
+<head>
+    <!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width" name="viewport" />
+    <!--[if !mso]><!-->
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <!--<![endif]-->
+    <title>Welcome Mailer</title>
+    <!--[if !mso]><!-->
+    <!--<![endif]-->
+</head>
+
+<body class="clean-body" style="margin: 0;padding: 50px 0;; -webkit-text-size-adjust: 100%;background-color:#eaeeef;">
+  
+    <!--[if IE]><div class="ie-browser"><![endif]-->
+        <table style="box-sizing:border-box; border:1px solid #c8c8c8; margin: 0 auto;background-color:#fff;" width="900px" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td height="100" colspan="2" align="center"><img src="<?= config.MAILER_IMAGE_PATH ?>/Collegey_Logo_Blue.png" width="219" height="60" />      <hr />
+              </td>
+            </tr>
+            <tr>
+              <td height="31" colspan="2" style="padding-left:10px; font-size:20px; font-family:Verdana, Geneva, sans-serif;"><strong><?= model.templateData.email_top_header_text ?></strong></td>
+            </tr>
+            <tr>
+              <td width="50%" height="28"><table style="box-sizing:border-box; border:1px solid #c8c8c8; margin:10px;" width="90%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td  width="25%" height="25" style="padding-left:10px; font-family:Verdana, Geneva, sans-serif; border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; font-size:14px;"><strong>Name </strong></td>
+                  <td width="75%" style="padding-left:10px; font-family:Verdana, Geneva, sans-serif; border-bottom:1px solid #c8c8c8;  font-size:14px;"><?= model.name ?></td>
+                </tr>
+                <tr>
+                  <td height="25" style="padding-left:10px; font-family:Verdana, Geneva, sans-serif; border-right:1px solid #c8c8c8;  font-size:14px;"><strong>Email</strong></td>
+                  <td style="padding-left:10px; font-family:Verdana, Geneva, sans-serif;  font-size:14px;"><?= model.email ?></td>
+                </tr>
+                
+                
+                <tr>
+                  <td height="25" style="padding-left:10px; font-family:Verdana, Geneva, sans-serif; border-right:1px solid #c8c8c8; border-top:1px solid #c8c8c8;  font-size:14px;"><strong>Mobile</strong></td>
+                  <td style="padding-left:10px; font-family:Verdana, Geneva, sans-serif; border-top:1px solid #c8c8c8;  font-size:14px;"><?= model.mobile ?></td>
+                </tr>
+                
+                
+              </table></td>
+              <td width="50%" align="right" style="vertical-align: top;"><table style="box-sizing:border-box; border:1px solid #c8c8c8; margin:10px;" width="90%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="padding: 6px; font-family:Verdana, Geneva, sans-serif; font-size:14px;"><strong>Payment ID</strong> : <?= model.projectpaymentId ?></td>
+                  </tr>
+                
+              </table></td>
+            </tr>
+            <tr>
+              <td height="28" colspan="2"> </td>
+            </tr>
+            <tr>
+              <td style="padding:10px;" height="28" colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13%" height="28" align="center" style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-left:#c8c8c8 1px solid; border-top:#c8c8c8 1px solid; font-family:Verdana, Geneva, sans-serif; font-size:13px;"><strong>S.N</strong></td>
+                  <td width="22%" align="center" style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-top:#c8c8c8 1px solid; font-family:Verdana, Geneva, sans-serif; font-size:13px;"><strong>PROJECT NAME</strong></td>
+                  <td width="26%" align="center" style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-top:#c8c8c8 1px solid; font-family:Verdana, Geneva, sans-serif; font-size:13px;"><strong>AMOUNT</strong></td>
+                  <td width="19%" align="center" style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-top:#c8c8c8 1px solid; font-family:Verdana, Geneva, sans-serif; font-size:13px;"><strong>TOTAL AMOUNT</strong></td>
+                </tr>
+                <tr> 
+                  <td style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-left:#c8c8c8 1px solid" height="28" align="center">1</td>
+                  <td style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8;" align="center"><?= model.project_name ?></td>
+                  <td style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8;" align="center"><?= model.project_price ?></td>
+                  <td style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8;" align="center"><?= model.project_price ?></td>
+                </tr>
+                
+              </table>
+                 
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:10px;" height="28"> </td>
+              <td style="padding:10px;" height="28"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-top:1px solid #c8c8c8; border-left:1px solid #c8c8c8; font-family:Verdana, Geneva, sans-serif; font-size:13px; padding-left:10px;" width="51%" height="29"><strong>Total Amount</strong></td>
+                  <td width="49%" align="center" style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-top:1px solid #c8c8c8;"><?= model.project_price ?></td>
+                </tr>
+               
+                <tr>
+                  <td style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8; border-left:1px solid #c8c8c8; font-family:Verdana, Geneva, sans-serif; font-size:13px; padding-left:10px;" height="29"><strong>Final Amount</strong></td>
+                  <td align="center" style="border-bottom:1px solid #c8c8c8; border-right:1px solid #c8c8c8;"><?= model.project_price ?></td>
+                </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="28" colspan="2"> </td>
+            </tr>
+            <tr>
+              <td style="font-family:Verdana, Geneva, sans-serif; font-size:13px;" height="28" colspan="2" align="center">
+               <strong>Best Wishes</strong><br>Team Collegey
+              </td>
+            </tr>
+            <tr>
+              <td height="28" colspan="2"> </td>
+            </tr>
+          </table>
+    <!--[if (IE)]></div><![endif]-->
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+[
+  {
+    "group": "admin",
+    "permissions": [
+      {
+        "resource": "admin/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "auth/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "common/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "resources/*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "guest",
+    "permissions": [
+      {
+        "resource": "master/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "common/reset-password/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "profile/student-profile/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "resources/blogs/*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "student",
+    "permissions": [
+      {
+        "resource": "user/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },     
+      {
+        "resource": "auth/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },
+      {
+        "resource": "profile/*",
+        "methods": ["POST", "GET", "PUT","DELETE"],
+        "action": "allow"
+      },
+      {
+        "resource": "common/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "resources/*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "partner",
+    "permissions": [
+      {
+        "resource": "user/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },     
+      {
+        "resource": "auth/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },
+      {
+        "resource": "profile/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },
+      {
+        "resource": "common/*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "counsellor",
+    "permissions": [
+      {
+        "resource": "user/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },     
+      {
+        "resource": "auth/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },
+      {
+        "resource": "profile/*",
+        "methods": ["POST", "GET", "PUT"],
+        "action": "allow"
+      },
+      {
+        "resource": "common/*",
+        "methods": "*",
+        "action": "allow"
+      },
+      {
+        "resource": "resources/*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  }
+]

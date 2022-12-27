@@ -1,0 +1,14 @@
+./node_modules
+node_modules
+./data
+data
+./dist
+dist
+.eslintrc.js
+.env
+
+*.eslintignore
+*.prettierignore
+
+src/temp.txt
+/.zip
