@@ -237,6 +237,8 @@ exports.add_CommentReply = async (req, res) => {
 	var upObj = {
 		user: postData.user,
 		name: userData.name,
+		last_name: userData.last_name,
+		type: userData.type,
 		email: userData.email,
 		avatar: userData.avatar,
 		comment: postData.replyText,
