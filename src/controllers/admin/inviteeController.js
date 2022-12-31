@@ -2,6 +2,7 @@ import { inviteePostService,inviteeGetService } from "../../services/inviteeServ
 import { emailType,sendEmail } from '../../utilities/emailHelper';
 import Invitees  from '../../models/Invitees';
 import Invitees_join  from '../../models/Invitees-join';
+import User  from '../../models/User';
 var generatePassword = require('password-generator');
 const bcrypt = require('bcryptjs');
 
@@ -138,51 +139,68 @@ export async function activationCode(req,res,next){
 }
 
 export async function activationInviteCode(req,res,next){
-    try{
-        const invitee_data = await inviteeGetService.getOneinviteJoin(req.params.id);
-        const newpassword  = generatePassword(10, false, /[\w\d\?\-]/);
-        const passwordHash = await bcrypt.hash(newpassword, 10);
-        let user_obj = {
-            name: invitee_data.firstName,
-            last_name: invitee_data.lastName,
-            email: invitee_data.email,
-            password: passwordHash,
-            type: invitee_data.type,
-            Password_Activation: 0,
-        };
-        if(invitee_data.type == 'mentor')
-        { 
-            user_obj['mentor_profile.profile.linkedIn'] = invitee_data.linkedIn;
-            user_obj['mentor_profile.profile.fullLegalName'] = invitee_data.firstName +' '+ invitee_data.lastName; 
-        }
-        const Save_user    = await inviteePostService.saveUserRequest(user_obj);
-        const invitestatus = await Invitees_join.findOneAndUpdate({_id: req.params.id},{status:'active'});
-        let mail_subject;
+    // try{
+    //     const invitee_data = await inviteeGetService.getOneinviteJoin(req.params.id);
+    //     const newpassword  = generatePassword(10, false, /[\w\d\?\-]/);
+    //     const passwordHash = await bcrypt.hash(newpassword, 10);
+    //     let user_obj = {
+    //         name: invitee_data.firstName,
+    //         last_name: invitee_data.lastName,
+    //         email: invitee_data.email,
+    //         password: passwordHash,
+    //         type: invitee_data.type,
+    //         Password_Activation: 0,
+    //     };
+    //     if(invitee_data.type == 'mentor')
+    //     { 
+    //         user_obj['mentor_profile.profile.linkedIn'] = invitee_data.linkedIn;
+    //         user_obj['mentor_profile.profile.fullLegalName'] = invitee_data.firstName +' '+ invitee_data.lastName; 
+    //     }
+    //     const Save_user    = await inviteePostService.saveUserRequest(user_obj);
+    //     const invitestatus = await Invitees_join.findOneAndUpdate({_id: req.params.id},{status:'active'});
+    //     let mail_subject;
             
-        if(invitee_data.type == 'mentor')
-        {
-            mail_subject = 'Mentor Info';
-        }
-        else if(invitee_data.type == 'student')
-        {
-            mail_subject = 'Student Info';
-        }
+    //     if(invitee_data.type == 'mentor')
+    //     {
+    //         mail_subject = 'Mentor Info';
+    //     }
+    //     else if(invitee_data.type == 'student')
+    //     {
+    //         mail_subject = 'Student Info';
+    //     }
 
-        let user_mailObj = {
-            user_id : Save_user.id,
-            email: Save_user.email,
-            password: newpassword,
-            type: mail_subject,
-        }; 
-        if(Save_user){
-            sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
+    //     let user_mailObj = {
+    //         user_id : Save_user.id,
+    //         email: Save_user.email,
+    //         password: newpassword,
+    //         type: mail_subject,
+    //     }; 
+    //     if(Save_user){
+    //         sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
+    //         res.status(200).json({
+    //             status: "success",
+    //             message: "Invitee join updated successfully",
+    //             data: user_mailObj
+    //         });
+    //     }
+    // }catch(e){
+    //     next(e);
+    // }
+
+    //new one 
+
+    try {
+        const invitee = await Invitees_join.updateOne({_id:req.body.id},{$set:{status:"active"}});
+        const data = await Invitees_join.findOne({_id:req.params.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:1}});
+        if(invitee){
             res.status(200).json({
                 status: "success",
-                message: "Invitee join updated successfully",
-                data: user_mailObj
+                message: "Invitee deleted successfully",
             });
         }
-    }catch(e){
+    }
+    catch (e) {
         next(e);
     }
 }
@@ -227,6 +245,9 @@ export async function edit (req, res, next) {
 const _delete = async function (req, res, next) {
     try {
         const invitee = await inviteePostService.deleteInvitee(req.params.id);
+        const data = await Invitees.findOne({_id:req.params.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:2}});
+        console.log('data',data);
         if(invitee){
             res.status(200).json({
                 status: "success",
@@ -258,6 +279,8 @@ export async function edit_invitejoin (req, res, next) {
 const _delete_invitejoin = async function (req, res, next) {
     try {
         const invitee = await inviteePostService.deleteInviteejoin(req.params.id);
+        const data = await Invitees_join.findOne({_id:req.params.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:2}});
         if(invitee){
             res.status(200).json({
                 status: "success",
@@ -295,6 +318,40 @@ export async function view_singleJoin (req, res, next) {
                 status: "success",
                 message: "Invitee details",
                 data: invitee
+            });
+        }
+    }catch(e){
+        next(e);
+    }
+}
+
+//active invitee
+
+export async function activeInvitee (req, res, next) {
+    try{
+        const invitee = await Invitees.updateOne({_id:req.body.id},{$set:{status:"active"}});
+        const data = await Invitees.findOne({_id:req.body.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:1}});
+        if(invitee){
+            res.status(200).json({
+                status: "success",
+                message: "Invitee Active successfully",
+            });
+        }
+    }catch(e){
+        next(e);
+    }
+}
+
+export async function activeInviteJoin (req, res, next) {
+    try{
+        const invitee = await Invitees_join.updateOne({_id:req.body.id},{$set:{status:"active"}});
+        const data = await Invitees_join.findOne({_id:req.body.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:1}});
+        if(invitee){
+            res.status(200).json({
+                status: "success",
+                message: "Invitee Join  Active successfully",
             });
         }
     }catch(e){

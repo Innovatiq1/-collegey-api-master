@@ -30,7 +30,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
     const NewUser = await User.create(req.body);
 
     /* Email Starts */
-    const url = `http://18.141.230.170//student-dashboard/$`;
+    const url = `https://collegey.com/student-dashboard/$`;
     await new Email(NewUser, url).sendWelcome();
     /* Email Ends */
 

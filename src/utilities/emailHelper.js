@@ -45,8 +45,8 @@ const emailType = {
 const config = {
 	"developemnt": {
 		"ID": "development",
-		"BASE_URL": "hhttp://18.141.230.170/",
-		"MAILER_IMAGE_PATH": "http://18.141.230.170//assets/images/logo_image",
+		"BASE_URL": "https://collegey.com/",
+		"MAILER_IMAGE_PATH": "https://collegey.com/assets/images/logo_image",
 		"DASHBOARD_URL": "/student/dashboard",
 		"RESET_PASSWORD_URL": "/reset-password",
 		"FB_LINK": "https://www.facebook.com/BeCollegey",
@@ -58,8 +58,8 @@ const config = {
 	},
 	"production": {
 		"ID": "production",
-		"BASE_URL": "http://18.141.230.170/",
-		"MAILER_IMAGE_PATH": "http://18.141.230.170//assets/images/logo_image",
+		"BASE_URL": "https://collegey.com",
+		"MAILER_IMAGE_PATH": "https://collegey.com/assets/images/logo_image",
 		"DASHBOARD_URL": "/student/dashboard",
 		"RESET_PASSWORD_URL": "/reset-password",
 		"FB_LINK": "https://www.facebook.com/BeCollegey",

@@ -23,8 +23,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 	const session = await stripe.checkout.sessions.create({
 		payment_method_types: ['card'],
 		//success_url: `${req.protocol}://${req.get('host')}/?project=${req.params.projectId}&user=${req.user.id}&price=${project.projectPrice.amount}`,
-		success_url: `http://18.141.230.170//success/?project=${req.params.projectId}&user=${req.user.id}&price=${project.projectPrice.amount}`,
-		cancel_url: `http://18.141.230.170//cancel`,
+		success_url: `https://collegey.com/success/?project=${req.params.projectId}&user=${req.user.id}&price=${project.projectPrice.amount}`,
+		cancel_url: `https://collegey.com/cancel`,
 		customer_email: req.user.email,
 		client_reference_id: req.params.projectId,
 		line_items: [  
@@ -32,7 +32,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 				name: `${project.title} Project`,
 				description: project.description,
 				images: [
-					`http://18.141.230.170//assets/images/logo_image/stripe-checkout-collegylogo-22.png`,
+					`https://collegey.com/assets/images/logo_image/stripe-checkout-collegylogo-22.png`,
 				],
 				amount: project.projectPrice.amount * 100,
 				currency: 'usd',
@@ -75,8 +75,8 @@ exports.getCheckoutSessionPrograms = catchAsync(async (req, res, next) => {
 		payment_method_types: ['card'],
 
 		//success_url: `${req.protocol}://${req.get('host')}/?project=${req.params.projectId}&user=${req.user.id}&price=${project.projectPrice.amount}`,
-		success_url: `http://18.141.230.170//success-program/?project=${req.params.programsId}&user=${req.user.id}&price=${program.cost}`,
-		cancel_url: `http://18.141.230.170//cancel`,
+		success_url: `https://collegey.com/success-program/?project=${req.params.programsId}&user=${req.user.id}&price=${program.cost}`,
+		cancel_url: `https://collegey.com/cancel`,
 		customer_email: req.user.email,
 		client_reference_id: req.params.programsId,
 		line_items: [
@@ -84,7 +84,7 @@ exports.getCheckoutSessionPrograms = catchAsync(async (req, res, next) => {
 				name: `${program.title} Programe`,
 				description: cleanText,
 				images: [
-					`http://18.141.230.170//assets/images/logo_image/stripe-checkout-collegylogo-22.png`,
+					`https://collegey.com/assets/images/logo_image/stripe-checkout-collegylogo-22.png`,
 				],
 				amount: program.cost * 100,
 				currency: 'usd',
