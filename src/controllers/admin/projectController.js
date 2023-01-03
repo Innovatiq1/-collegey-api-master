@@ -260,6 +260,14 @@ exports.fetchAllProjects = async (req, res, next) => {
 		{
 			$lookup: {
 				from: 'users',
+				localField: 'projectMembers',
+				foreignField: '_id',
+				as: 'projectMembers'
+			}
+		},
+		{
+			$lookup: {
+				from: 'users',
 				localField: 'mentor',
 				foreignField: '_id',
 				as: 'mentor'
