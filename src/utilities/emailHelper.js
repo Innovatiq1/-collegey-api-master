@@ -26,6 +26,7 @@ const emailType = {
 	ADD_NEW_COLLEGEY_PARTNER: 36,
 	ADD_NEW_COLLEGEY_CAREER: 37,
 	NEWS_LETTER_SUBSCRIPTION: 39,
+	NEW_ADMIN_WELCOME_EMAIL: 40,
 
 	// ALL Project Related Template
 	PROJECT_SIGNUP_EMAIL: 13,
@@ -45,8 +46,8 @@ const emailType = {
 const config = {
 	"developemnt": {
 		"ID": "development",
-		"BASE_URL": "hhttp://18.141.230.170/",
-		"MAILER_IMAGE_PATH": "http://18.141.230.170//assets/images/logo_image",
+		"BASE_URL": "https://collegey.com/",
+		"MAILER_IMAGE_PATH": "https://collegey.com/assets/images/logo_image",
 		"DASHBOARD_URL": "/student/dashboard",
 		"RESET_PASSWORD_URL": "/reset-password",
 		"FB_LINK": "https://www.facebook.com/BeCollegey",
@@ -58,8 +59,8 @@ const config = {
 	},
 	"production": {
 		"ID": "production",
-		"BASE_URL": "http://18.141.230.170/",
-		"MAILER_IMAGE_PATH": "http://18.141.230.170//assets/images/logo_image",
+		"BASE_URL": "https://collegey.com",
+		"MAILER_IMAGE_PATH": "https://collegey.com/assets/images/logo_image",
 		"DASHBOARD_URL": "/student/dashboard",
 		"RESET_PASSWORD_URL": "/reset-password",
 		"FB_LINK": "https://www.facebook.com/BeCollegey",
@@ -434,10 +435,25 @@ const sendEmail = async (type, model, refData) => {
 				__dirname + '/' + emailTemplatePath + 'invite_user_share_email.ejs',
 				{ config: params.config, model: model }
 			);
-			// console.log('Invitation Model', model);
+			console.log('Invitation Model', model);
 			const emailMessage = {
 				to: model.email,
-				subject: 'Collegey Student',
+				subject: 'Collegey '+model.type,
+				html: data,
+			}; 
+			emailConfig.sendEmail(emailMessage);
+			break;
+		}
+
+		case emailType.NEW_ADMIN_WELCOME_EMAIL: {
+			const data = await ejs.renderFile(
+				__dirname + '/' + emailTemplatePath + 'invite_admin_share_email.ejs',
+				{ config: params.config, model: model }
+			);
+			console.log('Invitation Model', model);
+			const emailMessage = {
+				to: model.email,
+				subject: 'Collegey '+model.type,
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);

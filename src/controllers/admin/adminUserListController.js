@@ -5,6 +5,11 @@ const { ObjectId } = require('bson');
 // Models
 const User = require('../../models/User');
 const UserRewardModel = require('../../models/rewardspoint');
+import Invitees  from '../../models/Invitees';
+import Invitees_join  from '../../models/Invitees-join';
+import { emailType,sendEmail } from '../../utilities/emailHelper';
+var generatePassword = require('password-generator');
+// const bcrypt = require('bcryptjs');
 
 // default functions
 const factory = require('../factoryFunctions/handlerFactory');
@@ -26,22 +31,114 @@ exports.setEncryptedPassword = catchAsync(async (req, res, next) => {
 
     next();
 });
+// exports.createUser = catchAsync(async (req, res, next) => {
+//     const NewUser = await User.create(req.body);
+
+//     /* Email Starts */
+//     const url = `https://collegey.com/student-dashboard/$`;
+//     await new Email(NewUser, url).sendWelcome();
+//     /* Email Ends */
+
+//     res.status(201).json({
+//         status: 'success',
+
+//         data: {
+//             data: NewUser,
+//         },
+//     });
+// });
+
+//new student User
 exports.createUser = catchAsync(async (req, res, next) => {
-    const NewUser = await User.create(req.body);
+    // const NewUser = await User.create(req.body);
+    try {
+            const user = await User.findOne({email:req.body.email});
+            const invitee = await Invitees.findOne({email:req.body.email});
+            const inviteeJoin = await Invitees_join.findOne({email:req.body.email});
+            if(user !== null || invitee !== null || inviteeJoin !== null){
+                res.status(400).json({
+                    status: "fail",
+                    message: "User alerady exist",
+                });
+            }else{
+                const newpassword  = generatePassword(10, false, /[\w\d\?\-]/);
+                const passwordHash = await bcrypt.hash(newpassword, 10);
 
-    /* Email Starts */
-    const url = `http://18.141.230.170//student-dashboard/$`;
-    await new Email(NewUser, url).sendWelcome();
-    /* Email Ends */
+                req.body.password = passwordHash
 
-    res.status(201).json({
-        status: 'success',
+             
 
-        data: {
-            data: NewUser,
-        },
+                const NewUser = await User.create(req.body);
+                    let user_mailObj = {
+                        user_id : NewUser._id,
+                        email: NewUser.email,
+                        password: newpassword,
+                        type:NewUser.type,
+                    };
+                    if(NewUser){
+                        sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
+                        res.status(200).json({
+                            status: "success",
+                            message: "User added successfully",
+                            data: user_mailObj
+                        });
+                    }
+            }
+            
+    } catch (error) {
+        console.log(error);
+        next(error)
+     }
+            
     });
-});
+
+
+//admin
+
+exports.createAdmin = catchAsync(async (req, res, next) => {
+    // const NewUser = await User.create(req.body);
+    try {
+    console.log('-=-===-==-req',req.body)
+            const user = await User.findOne({email:req.body.email});
+            const invitee = await Invitees.findOne({email:req.body.email});
+            const inviteeJoin = await Invitees_join.findOne({email:req.body.email});
+            if(user !== null || invitee !== null || inviteeJoin !== null){
+                res.status(400).json({
+                    status: "fail",
+                    message: "User alerady exist",
+                });
+            }else{
+                // const newpassword  = generatePassword(10, false, /[\w\d\?\-]/);
+                const passwordHash = await bcrypt.hash(req.body.password, 10);
+
+                req.body.password = passwordHash;
+                req.body.Password_Activation = 1;
+
+                const NewUser = await User.create(req.body);
+                console.log('NewUser',NewUser);
+
+                    let user_mailObj = {
+                        user_id : NewUser._id,
+                        email: NewUser.email,
+                        // password: newpassword,
+                        type:NewUser.type,
+                    };
+                    if(NewUser){
+                        sendEmail(emailType.NEW_ADMIN_WELCOME_EMAIL,user_mailObj);
+                        res.status(200).json({
+                            status: "success",
+                            message: "User added successfully",
+                            data: user_mailObj
+                        });
+                    }
+            }
+            
+    } catch (error) {
+        console.log(error);
+        next(error)
+     }
+            
+    });
 
 // using default factory functions
 exports.getAllUsers = factory.getAll(User);

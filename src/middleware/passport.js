@@ -77,6 +77,9 @@ passport.use(
 				if (typeof user.Password_Activation !== 'undefined' && user.Password_Activation == '0') {
 				   return done(null, false, { message: 'Please check mail and click to reset password and change your password.' });
 				}
+				if (typeof user.Password_Activation !== 'undefined' && user.Password_Activation == '2') {
+					return done(null, false, { message: 'You are disabled please contact to collegey support' });
+				 }
 				if (user === null) {
 					return done(null, false, { message: 'Please enter a valid email id' });
 				}
