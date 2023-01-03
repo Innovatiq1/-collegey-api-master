@@ -127,6 +127,7 @@ export async function activationCode(req,res,next){
         };
         if(Save_user){
             sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
+            sendEmail(emailType.STUDENT_WELCOME_EMAIL, user_mailObj);
             res.status(200).json({
                 status: "success",
                 message: "Invitee updated successfully",
@@ -177,6 +178,7 @@ export async function activationInviteCode(req,res,next){
         }; 
         if(Save_user){
             sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
+            sendEmail(emailType.STUDENT_WELCOME_EMAIL, user_mailObj);
             res.status(200).json({
                 status: "success",
                 message: "Invitee join updated successfully",

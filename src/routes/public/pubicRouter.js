@@ -102,5 +102,9 @@ router.use('/collegeyWithPartner', collegeyWithPartner);
 const collegeyAtCareer = require('../admin/collegeyAtCareer');
 router.use('/collegeyAtCareer', collegeyAtCareer);
 
+//country code
+import masterController from '../../controllers/master';
+router.get('/country', masterController.getCountries);
+
 
 module.exports = router;
