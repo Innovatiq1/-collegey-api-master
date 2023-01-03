@@ -26,6 +26,14 @@ router.route('/joininvitee/activate/:id').post(inviteeController.activationInvit
 router.route('/joininvitee/reject/:id').post(inviteeController.sendinviteJoinRejected);
 
 router.route('/activate/:id')
-    .post(inviteeController.activationCode)
+    .post(inviteeController.activationCode);
+
+// active-inactive route
+
+router.route('/active')
+    .post(inviteeController.activeInvitee);
+
+router.route('/joininvitee/active')
+    .post(inviteeController.activeInviteJoin);
 
 module.exports = router;

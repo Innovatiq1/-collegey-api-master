@@ -2,6 +2,7 @@ import { inviteePostService,inviteeGetService } from "../../services/inviteeServ
 import { emailType,sendEmail } from '../../utilities/emailHelper';
 import Invitees  from '../../models/Invitees';
 import Invitees_join  from '../../models/Invitees-join';
+import User  from '../../models/User';
 var generatePassword = require('password-generator');
 const bcrypt = require('bcryptjs');
 
@@ -185,6 +186,24 @@ export async function activationInviteCode(req,res,next){
     }catch(e){
         next(e);
     }
+
+    //new one 
+
+    // try {
+    //     const invitee = await Invitees_join.updateOne({_id:req.body.id},{$set:{status:"active"}});
+    //     const data = await Invitees_join.findOne({_id:req.params.id});
+    //     const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:1}});
+    //     console.log('user',user);
+    //     if(invitee){
+    //         res.status(200).json({
+    //             status: "success",
+    //             message: "Invitee join updated successfully",
+    //         });
+    //     }
+    // }
+    // catch (e) {
+    //     next(e);
+    // }
 }
 
 export async function sendinviteJoinRejected(req,res,next){
@@ -227,6 +246,9 @@ export async function edit (req, res, next) {
 const _delete = async function (req, res, next) {
     try {
         const invitee = await inviteePostService.deleteInvitee(req.params.id);
+        const data = await Invitees.findOne({_id:req.params.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:2}});
+        console.log('data',data);
         if(invitee){
             res.status(200).json({
                 status: "success",
@@ -258,6 +280,8 @@ export async function edit_invitejoin (req, res, next) {
 const _delete_invitejoin = async function (req, res, next) {
     try {
         const invitee = await inviteePostService.deleteInviteejoin(req.params.id);
+        const data = await Invitees_join.findOne({_id:req.params.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:2}});
         if(invitee){
             res.status(200).json({
                 status: "success",
@@ -295,6 +319,40 @@ export async function view_singleJoin (req, res, next) {
                 status: "success",
                 message: "Invitee details",
                 data: invitee
+            });
+        }
+    }catch(e){
+        next(e);
+    }
+}
+
+//active invitee
+
+export async function activeInvitee (req, res, next) {
+    try{
+        const invitee = await Invitees.updateOne({_id:req.body.id},{$set:{status:"active"}});
+        const data = await Invitees.findOne({_id:req.body.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:1}});
+        if(invitee){
+            res.status(200).json({
+                status: "success",
+                message: "Invitee Active successfully",
+            });
+        }
+    }catch(e){
+        next(e);
+    }
+}
+
+export async function activeInviteJoin (req, res, next) {
+    try{
+        const invitee = await Invitees_join.updateOne({_id:req.body.id},{$set:{status:"active"}});
+        const data = await Invitees_join.findOne({_id:req.body.id});
+        const user = await User.updateOne({email:data?.email},{$set:{Password_Activation:1}});
+        if(invitee){
+            res.status(200).json({
+                status: "success",
+                message: "Invitee Join  Active successfully",
             });
         }
     }catch(e){

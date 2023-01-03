@@ -100,7 +100,7 @@ exports.inviteePostService = {
     async deleteInvitee(inviteId) {
         try{
             if(inviteId){
-                await Invitees.updateOne({_id: inviteId}, {status: 10});
+               var data= await Invitees.updateOne({_id: inviteId}, {status: 10});
                 return true
             }else{
                 _throwException('blog not found');

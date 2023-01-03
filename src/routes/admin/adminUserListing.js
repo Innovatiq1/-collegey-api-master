@@ -5,7 +5,13 @@ const adminUserListController = require('../../controllers/admin/adminUserListCo
 router
 	.route('/')
 	.get(adminUserListController.getAllUsers)
-	.post(adminUserListController.setEncryptedPassword, adminUserListController.createUser);
+	// .post(adminUserListController.setEncryptedPassword, adminUserListController.createUser);
+	.post(adminUserListController.createUser);
+
+//admin
+router
+	.route('/admin')
+	.post(adminUserListController.createAdmin);
 
 router
 	.route('/mentors')

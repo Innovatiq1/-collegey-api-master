@@ -1,8 +1,8 @@
 {
 	"development": {
 		"ID": "development",
-		"BASE_URL": "http://18.141.230.170/",
-		"MAILER_IMAGE_PATH": "http://18.141.230.170//assets/images/logo_image",
+		"BASE_URL": "https://collegey.com",
+		"MAILER_IMAGE_PATH": "https://collegey.com/assets/images/logo_image",
 		"MAILER_IMAGE_PATH1": "https://collegey.s3-ap-southeast-1.amazonaws.com/mailers",
 		"DASHBOARD_URL": "/student/dashboard",
 		"RESET_PASSWORD_URL": "/reset-password",
@@ -15,8 +15,8 @@
 	},
 	"production": {
 		"ID": "production",
-		"BASE_URL": "http://18.141.230.170/",
-		"MAILER_IMAGE_PATH": "http://18.141.230.170//assets/images/logo_image",
+		"BASE_URL": "https://collegey.com/",
+		"MAILER_IMAGE_PATH": "https://collegey.com/assets/images/logo_image",
 		"DASHBOARD_URL": "/student/dashboard",
 		"RESET_PASSWORD_URL": "/reset-password",
 		"FB_LINK": "https://www.facebook.com/BeCollegey",
