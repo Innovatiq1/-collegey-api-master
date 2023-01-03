@@ -61,7 +61,7 @@ exports.login = async function(req, res, next) {
 		}else{
 			return res.status(400).send({
 				status: 'error',
-				message: `User is blocked. Please contact support team`
+				message: `You are disabled please contact to collegey support`
 			});			
 		}
 
