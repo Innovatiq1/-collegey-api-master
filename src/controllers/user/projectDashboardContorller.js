@@ -443,17 +443,26 @@ exports.getAllUserProjects = async (req, res, next) => {
 							}
 						},
 						{ $unwind: { path: "$mentor",  preserveNullAndEmptyArrays: true }  },
-
 						{
 							$lookup: {
-								from: 'user_watchlists',
-								localField: '_id',
-								foreignField: 'project_id',
-								as: 'watchlist'
-							}
-						},
+							  from: "user_watchlists",
+							  let: { userid: mongoose.Types.ObjectId(req.user.id),projectId: '$_id'},
+							  pipeline: [
+								{
+								  $match: {
+									$expr: {
+									  $and: [
+										{ $eq: ["$user_id", "$$userid"] },
+										{ $eq: ["$project_id", "$$projectId"] },
+									  ],
+									},
+								  },
+								},
+							  ],
+							  as: "watchlist",
+							},
+						}, 
 						{ $unwind: { path: "$watchlist",  preserveNullAndEmptyArrays: true }  },
-
 						{
 							$lookup: {
 								from: 'users',
@@ -682,19 +691,30 @@ exports.getAllPendingProjectByStudent = async (req, res, next) => {
 		{ $addFields: { projectAvailableSlot: { $size: "$countdatat" } } },
 		{
 			$lookup: {
-				from: 'user_watchlists',
-				localField: '_id',
-				foreignField: 'project_id',
-				as: 'watchlist'
-			}
+			  from: "user_watchlists",
+			  let: { userid: mongoose.Types.ObjectId(userId),projectId: '$_id'},
+			  pipeline: [
+				{
+				  $match: {
+					$expr: {
+					  $and: [
+						{ $eq: ["$user_id", "$$userid"] },
+						{ $eq: ["$project_id", "$$projectId"] },
+					  ],
+					},
+				  },
+				},
+			  ],
+			  as: "watchlist",
+			},
 		},
-		{ $unwind: { path: "$watchlist",  preserveNullAndEmptyArrays: true }  }
+		{ $unwind: { path: "$watchlist",  preserveNullAndEmptyArrays: true }  },
 	];
 
 	var projectDashboardProjects = await ProjectsModel.aggregate(
 		Allaggregate
 	);
-
+		
 	try {
 		if (projectDashboardProjects) {
 			res.status(200).json({
@@ -1865,15 +1885,16 @@ exports.UserProgramSuccess = async (req, res) => {
 
 exports.UserProjectSuccess = async (req, res) => {
 	let postData = req.body;
+	const Fetch_projectData = await ProjectsModel.findOne({ _id: postData.project_id });
 	const projectlins = new userProjectModel({
 		project_id: postData.project_id,
 		user_id: postData.user_id,
 		status: 1,
 		paymentType:postData.paymentType,
-		paymentAmount:postData.paymentAmount
+		paymentAmount: Fetch_projectData.projectPrice.amount
 	});
 	const userData = await userModel.findOne({ _id: postData.user_id });
-	const Fetch_projectData = await ProjectsModel.findOne({ _id: postData.project_id });
+	
 	try {
 		if (userData.type == 'student') {
 			if(postData.rewardjoin == true)
@@ -1928,21 +1949,26 @@ exports.UserProjectSuccess = async (req, res) => {
 		);
 
 		let mobExtension;
-		if (typeof userData.student_profile.ways_to_be_in_touch.phone_number.extension !== 'undefined') {
-			mobExtension = userData.student_profile.ways_to_be_in_touch.phone_number.extension;
-		}
-		else {
-			mobExtension = '';
+		if(typeof userData.student_profile.ways_to_be_in_touch !== 'undefined') 
+		{
+			if (typeof userData.student_profile.ways_to_be_in_touch.phone_number.extension !== 'undefined') {
+				mobExtension = userData.student_profile.ways_to_be_in_touch.phone_number.extension;
+			}
+			else {
+				mobExtension = '';
+			}
 		}
 
 		let mobNumber;
-		if (typeof userData.student_profile.ways_to_be_in_touch.phone_number.number !== 'undefined') {
-			mobNumber = userData.student_profile.ways_to_be_in_touch.phone_number.number;
+		if(typeof userData.student_profile.ways_to_be_in_touch !== 'undefined') 
+		{
+			if (typeof userData.student_profile.ways_to_be_in_touch.phone_number.number !== 'undefined') {
+				mobNumber = userData.student_profile.ways_to_be_in_touch.phone_number.number;
+			}
+			else {
+				mobNumber = '';
+			}
 		}
-		else {
-			mobNumber = '';
-		}
-
 		let project_mailObj = {
 			project_name: Fetch_projectData.title,
 			project_price: Fetch_projectData.projectPrice.amount,

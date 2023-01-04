@@ -287,11 +287,22 @@ exports.fetchAllProjects = async (req, res, next) => {
 		{ $addFields: {projectAvailableSlot	: {$size: "$countdatat"}}},
 		{
 			$lookup: {
-				from: 'user_watchlists',
-				localField: '_id',
-				foreignField: 'project_id',
-				as: 'watchlist'
-			}
+			  from: "user_watchlists",
+			  let: { userid: mongoose.Types.ObjectId(req.user.id),projectId: '$_id'},
+			  pipeline: [
+				{
+				  $match: {
+					$expr: {
+					  $and: [
+						{ $eq: ["$user_id", "$$userid"] },
+						{ $eq: ["$project_id", "$$projectId"] },
+					  ],
+					},
+				  },
+				},
+			  ],
+			  as: "watchlist",
+			},
 		},
 		{ $unwind: { path: "$watchlist",  preserveNullAndEmptyArrays: true }  },
 		{
