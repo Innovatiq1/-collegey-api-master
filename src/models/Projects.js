@@ -50,6 +50,7 @@ const projectSchema = new mongoose.Schema(
 		// 	default: null,
 		// },
 		documents: [{ type: String }],
+		min_students_count: { type: Number, default: 0 },
 		students_count: { type: Number, default: 0 },
 		start_date: { type: Date},
 		end_date: { type: Date},

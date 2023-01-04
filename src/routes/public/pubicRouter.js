@@ -105,6 +105,12 @@ router.use('/collegeyAtCareer', collegeyAtCareer);
 //country code
 import masterController from '../../controllers/master';
 router.get('/country', masterController.getCountries);
+//partner
+var collegeyPartner = require("../user/collegey-partner")
+router.use('/collegeyPartner', collegeyPartner);
+//career
+var common = require("../user/common")
+router.use('/common', common);
 
 
 module.exports = router;
