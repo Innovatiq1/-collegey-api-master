@@ -3,6 +3,7 @@ import { emailType,sendEmail } from '../../utilities/emailHelper';
 import  invitationFriend  from "../../models/inviteFriend";
 import Invitees  from '../../models/Invitees';
 import Invitees_join  from '../../models/Invitees-join';
+import User  from '../../models/User';
 const service = require("../../utils/email");
 const nodemailer  = require("nodemailer");
 
@@ -18,7 +19,15 @@ const _new = async function (req, res, next) {
             email : PostData.email,
        });
 
-       if(existEmail)
+       const existEmailJoin = await Invitees_join.findOne({
+            email : PostData.email,
+       });
+
+       const existEmailUser = await User.findOne({
+        email : PostData.email,
+   });
+       
+       if(existEmail || existEmailJoin || existEmailUser)
        {
         return res.status(400).json({
             status: "faild",
