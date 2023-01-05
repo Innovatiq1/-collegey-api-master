@@ -298,6 +298,16 @@ export { _new as new };
 
 export async function edit(req, res, next) {
 	try {
+		console.log('-=-==->',req.body)
+		req.body["projectPlan.projectDuration"]= req.body.projectDuration;
+		req.body["projectPlan.week1Duration"]= req.body.week1Duration;
+		req.body["projectPlan.week2Duration"]= req.body.week2Duration;
+		req.body["projectPlan.week3Duration"]= req.body.week3Duration;
+		req.body["projectPlan.week4Duration"]= req.body.week4Duration;
+		req.body["projectPlan.week5Duration"]= req.body.week5Duration;
+		req.body["projectPlan.week6Duration"]= req.body.week6Duration;
+		req.body["projectPlan.monthDuration"]= req.body.monthDuration;
+
 		const project = await projectPostServices.updateProject(req.body, req.params.id);
 		if (project) {
 			res.status(200).json({

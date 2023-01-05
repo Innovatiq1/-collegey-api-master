@@ -6,6 +6,16 @@ exports.projectPostServices = {
 	async saveRequest(requestData) {
 		try {
 			requestData['status'] = 1;
+
+			requestData["projectPlan.projectDuration"]= requestData.projectDuration;
+			requestData["projectPlan.week1Duration"]= requestData.week1Duration;
+			requestData["projectPlan.week2Duration"]= requestData.week2Duration;
+			requestData["projectPlan.week3Duration"]= requestData.week3Duration;
+			requestData["projectPlan.week4Duration"]= requestData.week4Duration;
+			requestData["projectPlan.week5Duration"]= requestData.week5Duration;
+			requestData["projectPlan.week6Duration"]= requestData.week6Duration;
+			requestData["projectPlan.monthDuration"]= requestData.monthDuration;
+		
 			return await Projects.create(requestData);
 		} catch (e) {
 			throw e;
