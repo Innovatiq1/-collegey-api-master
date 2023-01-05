@@ -133,7 +133,9 @@ const projectSchema = new mongoose.Schema(
 		},
 		remainingSlot: { type: Number, default: 50 },
 		projectPlan: {
-			projectDuration: { type: String, enum: [4, 5, 6,'3 month','4 month','5 month','6 month','7 month','8 month','9 month'] },
+			projectDuration: { type: String, enum: [4, 5, 6,'3 month','4 month','5 month','6 month','7 month','8 month','9 month'],
+			default: 4
+		},
 			week1Duration: {   
 				type: String,
 				default: null,
@@ -159,31 +161,7 @@ const projectSchema = new mongoose.Schema(
 				default: null,
 			},
 
-			month3Duration: {
-				type: String,
-				default: null,
-			},
-			month4Duration: {
-				type: String,
-				default: null,
-			},
-			month5Duration: {
-				type: String,
-				default: null,
-			},
-			month6Duration: {
-				type: String,
-				default: null,
-			},
-			month7Duration: {
-				type: String,
-				default: null,
-			},
-			month8Duration: {
-				type: String,
-				default: null,
-			},
-			month9Duration: {
+			monthDuration: {
 				type: String,
 				default: null,
 			},
