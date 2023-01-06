@@ -22,7 +22,11 @@ exports.signup = async function(req, res, next) {
 		if (user.user.type == 'student') {
 			sendEmail(emailType.STUDENT_WELCOME_EMAIL, user.user);
 			user_data.profile_completed = false;
-		} else if (user.user.type == 'counsellor') {
+		} else if (user.user.type == 'mentor') {
+			sendEmail(emailType.STUDENT_WELCOME_EMAIL, user.user);
+			user_data.profile_completed = false;
+		}
+		else if (user.user.type == 'counsellor') {
 			sendEmail(emailType.COUNSELLOR_WELCOME_EMAIL, user.user);
 		}
 		return res.status(200).send({
