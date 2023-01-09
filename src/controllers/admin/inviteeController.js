@@ -106,6 +106,7 @@ export async function activationCode(req,res,next){
             password: passwordHash,
             type: invitee_data.type,
             Password_Activation: 0,
+            passwordChange: true,
         }; 
         const Save_user    = await inviteePostService.saveUserRequest(user_obj);
         const invitestatus = await Invitees.findOneAndUpdate({_id: req.params.id},{status:'active'});
@@ -151,6 +152,7 @@ export async function activationInviteCode(req,res,next){
             password: passwordHash,
             type: invitee_data.type,
             Password_Activation: 0,
+            passwordChange: true,
         };
         if(invitee_data.type == 'mentor')
         { 
