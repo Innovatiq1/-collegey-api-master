@@ -75,7 +75,7 @@ passport.use(
 					return done(null, false, { message: 'Please login with valid role' });		
 				}
 				if (typeof user.Password_Activation !== 'undefined' && user.Password_Activation == '0') {
-				   return done(null, false, { message: 'Please check mail and click to reset password and change your password.' });
+				   return done(null, false, { message: 'Please check mail and click to reset password and change your password.',userid: 'test'});
 				}
 				if (typeof user.Password_Activation !== 'undefined' && user.Password_Activation == '2') {
 					return done(null, false, { message: 'You are disabled please contact to collegey support' });

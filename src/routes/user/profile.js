@@ -104,6 +104,7 @@ router.post('/fetchSidebarQuetion', profile.fetchSidebarQuetion);
 router.post('/getCurrentUserDataFetch', profile.getCurrentUserDataFetch);
 
 router.post('/getMentorUserDataFetch', profile.getMentorUserDataFetch);
+router.post('/checkloginpassword', profile.checkloginpassword);
 
 router.post('/getAllMentorUserData', profile.getAllMentorUserData);
 router.post('/updateBannerImage', profile.updateBannerImage);

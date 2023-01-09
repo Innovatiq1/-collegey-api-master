@@ -179,7 +179,7 @@ exports.userPostServices = {
 					{_id: user._id},
 					{reset_password_expires: Date.now() + 3600000,
 					reset_password_token:token,password:passwordHash,
-					attemptCalculation:0,attemptBlock:false,passwordChange:true},
+					attemptCalculation:0,attemptBlock:false},
 					{new:true}
 				);
 
@@ -208,11 +208,11 @@ exports.userPostServices = {
 					
 				let updateUser = await User.findOneAndUpdate(
 					{_id: data.id,reset_password_token: token},
-					{password:passwordHash,reset_password_token:'',passwordChange:false},
+					{password:passwordHash,reset_password_token:''},
 					{new:true}
 				);
 				return updateUser;
-
+			
 			} else {
 				_throwException('user not found | resetPassword');
 			}

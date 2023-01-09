@@ -1007,6 +1007,28 @@ exports.getCurrentUserDataFetch = async function(req, res, next) {
     } 
 }
 
+exports.checkloginpassword = async function(req, res, next) {
+	try
+    {     
+		let postData = req.body;
+		const filters = { email: postData.email };
+		const user = await UserModel.findOne(filters);
+		res.status(200).json({  
+            status: "success",
+            message: "User fetch successfully",
+            data: user,
+        });
+    }
+    catch(error)
+    {
+		next(error);
+		res.status(400).json({
+			status: 'error',
+			message: 'User not found',
+		});
+    } 
+};
+
 exports.getMentorUserDataFetch = async function(req, res, next) {
 	let postData = req.body;
 
@@ -2186,7 +2208,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{$unwind: '$projectOwner'},
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 
 		var inviteProjects = await ProjectsModel.aggregate(
@@ -2231,7 +2260,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{$unwind: '$projectOwner'},
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 
 		var liveProjects = await ProjectsModel.aggregate(
@@ -2279,7 +2315,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{$unwind: '$projectOwner'},
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 		
 		var pendingProjects = await ProjectsModel.aggregate(
@@ -2311,8 +2354,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{$unwind: '$projectOwner'},
-
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 		
 		var projectByMentor = await ProjectsModel.aggregate(
@@ -2353,8 +2402,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 					}
 				},
 				{$unwind: '$projectOwner'},
-
-	
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'projectMembers',
+						foreignField: '_id',
+						as: 'projectMembers'
+					}
+				},	
 			]
 			
 			var projects = await ProjectsModel.aggregate(
@@ -2386,7 +2441,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{$unwind: '$projectOwner'},
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 		
 		var allMentorProject = await ProjectsModel.aggregate(
@@ -2418,7 +2480,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{$unwind: '$projectOwner'},
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 		
 		var allCollegyProject = await ProjectsModel.aggregate(
@@ -2466,8 +2535,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{ $unwind: '$projectOwner' },
-
-
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 
 		var completedProjects = await ProjectsModel.aggregate(
@@ -2519,6 +2594,14 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{ $unwind: '$projectOwner' },
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'projectMembers',
+					foreignField: '_id',
+					as: 'projectMembers'
+				}
+			},
 		]
 
 		var inProgressProjects = await ProjectsModel.aggregate(
