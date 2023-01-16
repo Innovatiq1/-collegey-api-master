@@ -17,7 +17,7 @@ exports.resetPasswordAction = async function (req,res,next){
                   {
                     let update_user = await User.findOneAndUpdate(
                         {_id: ObjectId(postData.user_id) },
-                        {password:passwordHash,Password_Activation:1,Password_Activation:false}
+                        {password:passwordHash,Password_Activation:1,passwordChange:false}
                     );
                     res.status(200).json({
                         status: 'success',

@@ -115,6 +115,7 @@ const userSchema = new mongoose.Schema(
 		attemptCalculation : {type: Number,default: 0},
 		attemptBlock : {type: Boolean,default: false},
 		passwordChange : {type: Boolean,default: false},
+		forgetPasswordChange : {type: Boolean,default: false},
 		reset_password_expires: {
 			type: Date,
 		},

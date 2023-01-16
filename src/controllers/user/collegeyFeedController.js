@@ -194,9 +194,10 @@ exports.DisliketForFeed = async (req, res, next) => {
 exports.shareForFeed = async (req, res, next) => {
 	try {
 		const feedId = req.params.id;
+		const userId = req.user._id;
 		//console.log('test',req.body)
 
-		const feed = await collegeyFeedPostService.postFeedShare(feedId, req.body);
+		const feed = await collegeyFeedPostService.postFeedShare(feedId, req.body,userId);
 		//console.log('feed',feed)
 		if (feed) {
 			res.status(200).json({

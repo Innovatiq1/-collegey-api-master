@@ -63,11 +63,10 @@ exports.createUser = catchAsync(async (req, res, next) => {
             }else{
                 const newpassword  = generatePassword(10, false, /[\w\d\?\-]/);
                 const passwordHash = await bcrypt.hash(newpassword, 10);
-
-                req.body.password = passwordHash
-
-             
-
+                req.body.password  = passwordHash;
+                req.body.Password_Activation  = 0;
+                req.body.passwordChange  = true;
+                
                 const NewUser = await User.create(req.body);
                     let user_mailObj = {
                         user_id : NewUser._id,
@@ -77,6 +76,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
                     };
                     if(NewUser){
                         sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
+                        sendEmail(emailType.STUDENT_WELCOME_EMAIL, user_mailObj);
                         res.status(200).json({
                             status: "success",
                             message: "User added successfully",
@@ -113,7 +113,8 @@ exports.createAdmin = catchAsync(async (req, res, next) => {
 
                 req.body.password = passwordHash;
                 req.body.Password_Activation = 1;
-
+                req.body.passwordChange  = false;
+                
                 const NewUser = await User.create(req.body);
                 console.log('NewUser',NewUser);
 
