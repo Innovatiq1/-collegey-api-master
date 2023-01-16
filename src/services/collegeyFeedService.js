@@ -46,6 +46,7 @@ exports.collegeyFeedPostService = {
     },
     async postFeedShare(feedId,value,userId){
         let share  = await shareCollegyFeed.create(value);
+        let newDescription = value.description;
         if(share){
             let feed = await CollegeyFeed.findByIdAndUpdate(feedId,{ "$push": { "share": share._id } },
             { "new": true, "upsert": true });
@@ -53,11 +54,20 @@ exports.collegeyFeedPostService = {
             // Share New Post
             const getFeedData = await CollegeyFeed.findOne({_id:feedId});
 
+            let feedDesc;
+            if(newDescription != null)
+            {
+                feedDesc = newDescription;
+            }
+            else
+            {
+                feedDesc = getFeedData.postText;
+            }
             const newFeedObj = new CollegeyFeed({
                 group : getFeedData.group,
                 postData : getFeedData.postData,
                 postImageUrl : getFeedData.postImageUrl,
-                postText : getFeedData.postText,
+                postText : feedDesc,
                 postType : getFeedData.postType,
                 posturl: getFeedData.posturl,
                 user : userId,
