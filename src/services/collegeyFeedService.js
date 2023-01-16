@@ -44,12 +44,25 @@ exports.collegeyFeedPostService = {
             }
         }
     },
-    async postFeedShare(feedId,value){
+    async postFeedShare(feedId,value,userId){
         let share  = await shareCollegyFeed.create(value);
         if(share){
             let feed = await CollegeyFeed.findByIdAndUpdate(feedId,{ "$push": { "share": share._id } },
             { "new": true, "upsert": true });
 
+            // Share New Post
+            const getFeedData = await CollegeyFeed.findOne({_id:feedId});
+
+            const newFeedObj = new CollegeyFeed({
+                group : getFeedData.group,
+                postData : getFeedData.postData,
+                postImageUrl : getFeedData.postImageUrl,
+                postText : getFeedData.postText,
+                postType : getFeedData.postType,
+                posturl: getFeedData.posturl,
+                user : userId,
+            });
+            const newFeed = await newFeedObj.save();
             if(feed){
                 return feed;
             }
