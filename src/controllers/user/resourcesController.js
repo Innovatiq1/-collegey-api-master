@@ -472,6 +472,21 @@ export async function getProgramsDetails(req, res, next) {
 	}
 }
 
+export async function getProgramsDetailsBySlug(req, res, next) {
+	try {
+		const programs = await programGetServices.getOneByslug(req.params.id);
+		if (programs) {
+			res.status(200).json({
+				status: 'success',
+				message: 'Programs Details',
+				data: programs
+			});
+		}
+	} catch (e) {
+		next(e);
+	}
+}
+
 export async function getCourses(req, res, next) {
 	try {
 		const courses = await courseGetServices.getAll(req.query, statusTypes.ACTIVE);
