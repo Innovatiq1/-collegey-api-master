@@ -329,3 +329,192 @@ export async function getUsersByName(req, res, next) {
     });
 
 }
+
+export async function getUsersByName1(req, res, next) {
+
+    const postData = req.body;
+    const searchText = {};
+    const searchLimit = postData.limit ? postData.limit : 10;
+    if (postData.username != null && postData.username != '') {
+        let regex = new RegExp(postData.username, "i");
+        searchText['$regex'] = regex;
+    }
+    let where = {
+        $and: [
+            {
+                type: "mentor"
+            },
+            {
+                name: searchText
+            }
+        ]
+    }
+
+
+    let aggregate = [
+        {
+            $match: where
+        },
+        {
+            $facet: {
+                data: [{ $limit: Number(searchLimit) }],
+                pageInfo: [
+                    {
+                        $group: { _id: null, count: { $sum: 1 } },
+                    },
+                ],
+            },
+        },
+        {
+            $unwind: { path: "$pageInfo", preserveNullAndEmptyArrays: true },
+        },
+        {
+            $project: {
+                item: "$data",
+                pageInfo: {
+                    count: '$pageInfo.count'
+                }
+
+
+            },
+        },
+
+    ];
+
+    var studentList = await User.aggregate(
+        aggregate
+    );
+
+    res.status(200).json({
+        status: "success",
+        message: "Got Student List",
+        results: studentList[0].pageInfo.count,
+        data: { data: studentList[0].item }
+    });
+
+}
+
+export async function getUsersByName2(req, res, next) {
+
+    const postData = req.body;
+    const searchText = {};
+    const searchLimit = postData.limit ? postData.limit : 10;
+    if (postData.username != null && postData.username != '') {
+        let regex = new RegExp(postData.username, "i");
+        searchText['$regex'] = regex;
+    }
+    let where = {
+        $and: [
+            {
+                type: "admin"
+            },
+            {
+                name: searchText
+            }
+        ]
+    }
+
+
+    let aggregate = [
+        {
+            $match: where
+        },
+        {
+            $facet: {
+                data: [{ $limit: Number(searchLimit) }],
+                pageInfo: [
+                    {
+                        $group: { _id: null, count: { $sum: 1 } },
+                    },
+                ],
+            },
+        },
+        {
+            $unwind: { path: "$pageInfo", preserveNullAndEmptyArrays: true },
+        },
+        {
+            $project: {
+                item: "$data",
+                pageInfo: {
+                    count: '$pageInfo.count'
+                }
+
+
+            },
+        },
+
+    ];
+
+    var studentList = await User.aggregate(
+        aggregate
+    );
+
+    res.status(200).json({
+        status: "success",
+        message: "Got Student List",
+        results: studentList[0].pageInfo.count,
+        data: { data: studentList[0].item }
+    });
+
+}
+
+export async function getUsersByName3(req, res, next) {
+
+    const postData = req.body;
+    const searchText = {};
+    const searchLimit = postData.limit ? postData.limit : 10;
+    if (postData.username != null && postData.username != '') {
+        let regex = new RegExp(postData.username, "i");
+        searchText['$regex'] = regex;
+    }
+    let where = {
+        $and: [
+            {
+                name: searchText
+            }
+        ]
+    }
+
+
+    let aggregate = [
+        {
+            $match: where
+        },
+        {
+            $facet: {
+                data: [{ $limit: Number(searchLimit) }],
+                pageInfo: [
+                    {
+                        $group: { _id: null, count: { $sum: 1 } },
+                    },
+                ],
+            },
+        },
+        {
+            $unwind: { path: "$pageInfo", preserveNullAndEmptyArrays: true },
+        },
+        {
+            $project: {
+                item: "$data",
+                pageInfo: {
+                    count: '$pageInfo.count'
+                }
+
+
+            },
+        },
+
+    ];
+
+    var studentList = await User.aggregate(
+        aggregate
+    );
+
+    res.status(200).json({
+        status: "success",
+        message: "Got Student List",
+        results: studentList[0].pageInfo.count,
+        data: { data: studentList[0].item }
+    });
+
+}

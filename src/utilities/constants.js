@@ -30,6 +30,7 @@ exports.EXCLUDED_URLS = Object.freeze({
 	INVITEE: '/invitee/',
 	ACTIVATE: '/invitee/activate',
 	PROGRAMS: '/resources/programs',
+	PROGRAMS_SLUG: '/resources/programs-slug',
 	COURSES: '/resources/courses',
 	CAREER: '/career/create',
 	INVEST: '/invest/create',

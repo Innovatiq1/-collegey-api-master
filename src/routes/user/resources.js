@@ -8,6 +8,7 @@ router.get('/blogs/:slug', resources.getBlogDetails);
 router.get('/webinars', resources.getWebinars);
 router.get('/programs', resources.getPrograms);
 router.get('/programs/:id', resources.getProgramsDetails);
+router.get('/programs-slug/:id', resources.getProgramsDetailsBySlug);
 
 
 router.get('/courses', resources.getCourses);

@@ -45,4 +45,8 @@ exports.programGetServices = {
     async getOne(programId) {
         return await Programs.findOne({_id: programId});
     },
+
+    async getOneByslug(programId) {
+        return await Programs.findOne({slug: programId});
+    },
 };
