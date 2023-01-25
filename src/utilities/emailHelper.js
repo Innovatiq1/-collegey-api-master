@@ -28,6 +28,9 @@ const emailType = {
 	NEWS_LETTER_SUBSCRIPTION: 39,
 	NEW_ADMIN_WELCOME_EMAIL: 40,
 
+	// Recccc Mail
+	NEW_RECOMMENDATION:41,
+
 	// ALL Project Related Template
 	PROJECT_SIGNUP_EMAIL: 13,
 	STUDENT_PROJECT_IDEA_EMAIL: 14,
@@ -348,6 +351,22 @@ const sendEmail = async (type, model, refData) => {
 			const emailMessage = {
 				to: model.email,
 				subject: SelectSection.email_subject,
+				html: data,
+			}; 
+			emailConfig.sendEmail(emailMessage);
+			break;
+		}
+
+		case emailType.NEW_RECOMMENDATION: {
+			
+			let data = await ejs.renderFile(
+				__dirname + '/' + emailTemplatePath + 'send_recommendation_template.ejs',
+				{ config: params.config, model: model }
+			);
+			console.log('-=-=--=>',model);
+			const emailMessage = {
+				to: model.email_id,
+				subject: 'Welcome',
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);
