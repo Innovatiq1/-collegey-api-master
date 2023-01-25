@@ -92,7 +92,7 @@ exports.getCheckoutSessionPrograms = catchAsync(async (req, res, next) => {
 		client_reference_id: req.params.programsId,
 		line_items: [
 			{
-				name: `${program.title} Programe`,
+				name: `${program.title}`,
 				description: cleanText,
 				images: [
 					`https://collegey.com/assets/images/logo_image/stripe-checkout-collegylogo-22.png`,
