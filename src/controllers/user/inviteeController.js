@@ -53,17 +53,19 @@ const _new = async function (req, res, next) {
             if(PostData.type == 'student')
             {
                 mailSubject = 'Student Request';
+                sendEmail(emailType.NEW_WAITLIST_ADD_EMAIL,obj);
             }
             else if(PostData.type == 'mentor')
             {
                 mailSubject = 'Mentor Request';
+                sendEmail(emailType.MENTOR_REQUEST_SUBMITEED,mentor_mailObj);
             }
             
             let mentor_mailObj = {
                 email : PostData.email,
                 mailSubject: mailSubject,
             };
-            sendEmail(emailType.MENTOR_REQUEST_SUBMITEED,mentor_mailObj); 
+            //sendEmail(emailType.MENTOR_REQUEST_SUBMITEED,mentor_mailObj); 
             invitee = await inviteePostService.saveInviteejoin(obj);
         }
         else
