@@ -282,13 +282,19 @@ const sendEmail = async (type, model, refData) => {
 		}
 	
 		case emailType.NEW_MENTOR_CONTACT_COLLEGY: {
+
+			// Fetch Tenplate Data
+			const templateData = await emailConfigurationModel.findOne({ isDeleted: false });
+			var SelectSection  = templateData.new_mentor_contact_template[0];
+			model['templateData'] = SelectSection;
+
 			const data = await ejs.renderFile(
 				__dirname + '/' + emailTemplatePath + 'new_mentor_contact_collegy.ejs',
 				{ config: params.config, model: model }
 			);
 			const emailMessage = {
 				to: adminEmail.email,
-				subject: 'Mentor Contact Collegey ',
+				subject: SelectSection.email_subject,
 				html: data,
 			};
 			emailConfig.sendEmail(emailMessage);
@@ -530,13 +536,20 @@ const sendEmail = async (type, model, refData) => {
 		}
 
 		case emailType.INVITE_USER_REJECT_EMAIL: {
+
+			// Fetch Tenplate Data
+			const templateData = await emailConfigurationModel.findOne({ isDeleted: false });
+			var SelectSection = templateData.invite_user_reject_template[0];
+			model['templateData'] = SelectSection;
+
+
 			const data = await ejs.renderFile(
 				__dirname + '/' + emailTemplatePath + 'invite_user_reject_invitejoin_email.ejs',
 				{ config: params.config, model: model }
 			);
 			const emailMessage = {
 				to: model.email,
-				subject: 'Rejection',
+				subject: SelectSection.email_subject,
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);
@@ -544,13 +557,19 @@ const sendEmail = async (type, model, refData) => {
 		}
 
 		case emailType.NEW_MEMBER_REFFERED_EMAIL: {
+
+			// Fetch Tenplate Data
+			const templateData = await emailConfigurationModel.findOne({ isDeleted: false });
+			var SelectSection = templateData.new_member_reffered_template[0];
+			model['templateData'] = SelectSection;
+			
 			const data = await ejs.renderFile(
 				__dirname + '/' + emailTemplatePath + 'member_reffer_email.ejs',
 				{ config: params.config, model: model }
 			);
 			const emailMessage = {
 				to: model.email,
-				subject: 'Join us mentor',
+				subject: SelectSection.email_subject,
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);
