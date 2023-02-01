@@ -19,5 +19,6 @@ router.get('/me', sanatizeUserType, auth.profile);
 // Linkedin in Social Login Access Token
 router.route('/getLinkedinAccessToken').post(auth.getLinkedinAccessToken); 
 router.route('/getLinkedinDetailsFetch').post(auth.getLinkedinDetailsFetch);
+router.route('/getLinkedinDetailsFetch1').post(auth.getLinkedinDetailsFetch1);
 
 module.exports = router;

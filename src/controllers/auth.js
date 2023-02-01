@@ -152,6 +152,51 @@ exports.getLinkedinDetailsFetch = async function(req, res, next) {
 				 });
 			  }
 			});
+		});
+    }
+    catch(error)
+    {   
+        next(error);
+		res.status(400).json({
+			status: 'error',
+			message: 'fetch details faild',
+		});
+    }
+};
+
+exports.getLinkedinDetailsFetch1 = async function(req, res, next) {
+	let postData = req.body;
+	try 
+    {   
+		return new Promise((resolve, reject) => {
+			let options = {
+			  method: "GET",
+			  url: "https://api.linkedin.com/v2/me",
+			  headers: {
+				"content-type": "application/json",
+				charset: "UTF-8",
+				"cache-control": "no-cache",
+				Authorization: "Bearer " + postData.accessToken,
+			  },
+			  json: true,
+			};
+			request(options, function (err, response) {
+			  if (err) {
+				console.log(err);
+				return reject({
+				  code: 400,
+				  message: "fetch details faild",
+				  data: err,
+				});
+			  } else {
+				let resultData = response.body;
+				return res.status(200).json({
+					status: 'Success',
+					message: 'fetch details successfully',
+					result: resultData,
+				 });
+			  }
+			});
 		  });
     }
     catch(error)
