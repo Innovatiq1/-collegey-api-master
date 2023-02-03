@@ -28,6 +28,9 @@ const emailType = {
 	NEWS_LETTER_SUBSCRIPTION: 39,
 	NEW_ADMIN_WELCOME_EMAIL: 40,
 
+	// Recccc Mail
+	NEW_RECOMMENDATION:41,
+
 	// ALL Project Related Template
 	PROJECT_SIGNUP_EMAIL: 13,
 	STUDENT_PROJECT_IDEA_EMAIL: 14,
@@ -279,13 +282,19 @@ const sendEmail = async (type, model, refData) => {
 		}
 	
 		case emailType.NEW_MENTOR_CONTACT_COLLEGY: {
+
+			// Fetch Tenplate Data
+			const templateData = await emailConfigurationModel.findOne({ isDeleted: false });
+			var SelectSection  = templateData.new_mentor_contact_template[0];
+			model['templateData'] = SelectSection;
+
 			const data = await ejs.renderFile(
 				__dirname + '/' + emailTemplatePath + 'new_mentor_contact_collegy.ejs',
 				{ config: params.config, model: model }
 			);
 			const emailMessage = {
 				to: adminEmail.email,
-				subject: 'Mentor Contact Collegey ',
+				subject: SelectSection.email_subject,
 				html: data,
 			};
 			emailConfig.sendEmail(emailMessage);
@@ -348,6 +357,22 @@ const sendEmail = async (type, model, refData) => {
 			const emailMessage = {
 				to: model.email,
 				subject: SelectSection.email_subject,
+				html: data,
+			}; 
+			emailConfig.sendEmail(emailMessage);
+			break;
+		}
+
+		case emailType.NEW_RECOMMENDATION: {
+			
+			let data = await ejs.renderFile(
+				__dirname + '/' + emailTemplatePath + 'send_recommendation_template.ejs',
+				{ config: params.config, model: model }
+			);
+			console.log('-=-=--=>',model);
+			const emailMessage = {
+				to: model.email_id,
+				subject: 'Welcome',
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);
@@ -511,13 +536,20 @@ const sendEmail = async (type, model, refData) => {
 		}
 
 		case emailType.INVITE_USER_REJECT_EMAIL: {
+
+			// Fetch Tenplate Data
+			const templateData = await emailConfigurationModel.findOne({ isDeleted: false });
+			var SelectSection = templateData.invite_user_reject_template[0];
+			model['templateData'] = SelectSection;
+
+
 			const data = await ejs.renderFile(
 				__dirname + '/' + emailTemplatePath + 'invite_user_reject_invitejoin_email.ejs',
 				{ config: params.config, model: model }
 			);
 			const emailMessage = {
 				to: model.email,
-				subject: 'Rejection',
+				subject: SelectSection.email_subject,
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);
@@ -525,13 +557,19 @@ const sendEmail = async (type, model, refData) => {
 		}
 
 		case emailType.NEW_MEMBER_REFFERED_EMAIL: {
+
+			// Fetch Tenplate Data
+			const templateData = await emailConfigurationModel.findOne({ isDeleted: false });
+			var SelectSection = templateData.new_member_reffered_template[0];
+			model['templateData'] = SelectSection;
+			
 			const data = await ejs.renderFile(
 				__dirname + '/' + emailTemplatePath + 'member_reffer_email.ejs',
 				{ config: params.config, model: model }
 			);
 			const emailMessage = {
 				to: model.email,
-				subject: 'Join us mentor',
+				subject: SelectSection.email_subject,
 				html: data,
 			}; 
 			emailConfig.sendEmail(emailMessage);

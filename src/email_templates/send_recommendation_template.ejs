@@ -401,43 +401,45 @@
                                 <div class="col num12" style="border-radius:5px;background-color:#FFF;box-shadow: 0 0 20px 0 #f2f2f2;min-width: 320px; max-width: 600px; display: table-cell; vertical-align: top;">
                                     <div style="width:100% !important;box-sizing: border-box;padding:0px 35px; background-image:url(<?= config.MAILER_IMAGE_PATH ?>/welcome-bg.png);background-repeat: no-repeat;background-size: cover;max-width:600px;height: 177px;border-radius: 5px 5px 5px 0;" class="border-none welcome-bg">
                                         <div class="welcome-bg-inner" style="width:100%;padding:70px 0 0;">
-                                            <p class="welcome-bg-p" style="font-size: 33px;font-weight: bold;line-height: 0.8;letter-spacing: 0.64px;text-align: left;color:#fff;margin-top: 0;margin-bottom:0;"><?= model.templateData.email_top_header_text ?></p>
+                                            <p style="font-size: 16px;font-weight: bold;line-height: 1;letter-spacing: 0.64px;text-align: left;color:#fff;margin-top: 0;margin-bottom:12px;">Hi,</p>
+                                            <p class="welcome-bg-p" style="font-size: 33px;font-weight: bold;line-height: 0.8;letter-spacing: 0.64px;text-align: left;color:#fff;margin-top: 0;margin-bottom:0;">Your recommendation request is sent successfully</p>
                                         </div>
                                     </div> 
-                                    <div style="width:100% !important;box-sizing: border-box;padding:10px;" class="border-none ">
-                                        <div class="box-padding mailer-content" style="padding:38px 30px 29px 25px;background-color:#FFF;border-radius: 0;border: 0;">
-
-                                            <p class="password-request" style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.63;letter-spacing: 0.32px;text-align: left;color: #000000;margin-top:0;margin-bottom:30px;"><?= model.templateData.email_content ?></p>
-                                            
-                                            <div style="width:100%;padding:14px 0px 14px;text-align:left;border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);">
-                                                <div class="image-box" style="display:inline-block;width:22%;padding:0;text-align:left;vertical-align: top;">
-                                                    <p style="font-family: Arial;font-size: 14px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;">Name:</p>
+                                    <div style="background-color:#eaeeef;">
+                                        <div class="block-grid" style="Margin: 0 auto; min-width: 320px; max-width: 600px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: transparent;box-sizing:border-box;">
+                                            <div style="border-collapse: collapse;width: 100%;border: 1px solid #e5e5e5;border-radius:5px;box-sizing: border-box;padding: 0px;" class="content-wrapper">
+                                                <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#fff;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:560px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->
+                                                <!--[if (mso)|(IE)]><td align="center" width="680" style="background-color:transparent;width:560px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px;"><![endif]-->
+                                                <div class="col num12" style="border-radius:5px;background-color:#FFF;box-shadow: 0 0 20px 0 #f2f2f2;min-width: 320px; max-width: 600px; display: table-cell; vertical-align: top;">
+                                                    <div style="width:100% !important;box-sizing: border-box;padding:10px;" class="border-none ">
+                                                        <div class="box-padding mailer-content" style="padding:40px 30px 33px 25px;background-color:#FFF;border-radius: 0;border: 0;">
+                                                            <div style="padding:0;text-align:left;margin-bottom:0px;">
+                                                                <p style="font-size: 16px;font-weight: normal;line-height: 1;letter-spacing: 0.64px;text-align: left;color:#000;margin-top: 0;margin-bottom:20px;">Greetings from Collegey</p>
+                                                                <div style="width:100%;padding:14px 0px 14px;text-align:left;border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);">
+                                                                    <div class="image-box" style="display:inline-block;width:22%;padding:0;text-align:left;vertical-align: top;">
+                                                                        <p style="font-family: Arial;font-size: 14px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;">Email:</p>
+                                                                    </div>
+                                                                    <div class="description-box" style="display:inline-block;width:77%;padding:0;text-align:left;">
+                                                                        <p style="font-family: Arial;font-size: 14px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;"><?= model.email_id ?></p>
+                                                                    </div>
+                                                                </div>
+                                                                <p class="password-request" style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.63;letter-spacing: 0.32px;text-align: left;color: #000000;margin-top:0;margin-bottom:20px;">You have been invited to join the Collegey Community.</p>
+                                                                <p class="password-request" style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.63;letter-spacing: 0.32px;text-align: left;color: #000000;margin-top:0;margin-bottom:20px;">By signing up with Collegey, you will be taking the first step towards your impact career. We'll do everything we can to help and support you as you learn to <strong>#ChallengeTheOrdinary</strong>.</p>
+                                                                <p class="password-request" style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.63;letter-spacing: 0.32px;text-align: left;color: #000000;margin-top:0;margin-bottom:32px;">We are super excited to have you on board. Click on 'Get Started' button & fill the required fields in 'JOIN THE WAITLIST' in Collegey home page.</p>
+                                                            </div>
+                                                            <div style="padding:0 0px;text-align:left;margin-top:0px;margin-bottom:35px;">
+                                                                <a class="action-btn" href="<?= config.BASE_URL ?>?source=counselor_invite" style=" font-family: Arial;font-size: 13px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 50px;letter-spacing: 0.26px;
+                                                                color: #fff;text-align: center;text-decoration: none;display:block;width: 180px;height: 49px;border-radius: 6.5px;background-color: #ff062f;">Get Started</a>
+                                                            </div>
+                                                            <div style="padding:0;text-align:left;margin-bottom:0px;">
+                                                                <p class="password-request" style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.63;letter-spacing: 0.32px;text-align: left;color: #000000;margin-top:0;margin-bottom:28px;">Welcome to the Tribe of Doers.</p>
+                                                                <p style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.44;letter-spacing: 0.32px;text-align: left;color: #000000;margin-bottom: 0;">Best Wishes<br> Team Collegey</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="description-box" style="display:inline-block;width:77%;padding:0;text-align:left;">
-                                                    <p style="font-family: Arial;font-size: 14px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;"><?= model.mentor_name ?></p>
-                                                </div>
-                                            </div>
-                                            <div style="width:100%;padding:14px 0px 14px;text-align:left;border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);">
-                                                <div class="image-box" style="display:inline-block;width:22%;padding:0;text-align:left;vertical-align: top;">
-                                                    <p style="font-family: Arial;font-size: 14px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;">email:</p>
-                                                </div>
-                                                <div class="description-box" style="display:inline-block;width:77%;padding:0;text-align:left;">
-                                                    <p style="font-family: Arial;font-size: 14px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;"><?= model.mentor_email ?></p>
-                                                </div>
-                                            </div>
-                                            <div style="width:100%;padding:14px 0px 14px;text-align:left;border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);">
-                                                <div class="image-box" style="display:inline-block;width:22%;padding:0;text-align:left;vertical-align: top;">
-                                                    <p style="font-family: Arial;font-size: 14px;font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;">message:</p>
-                                                </div>
-                                                <div class="description-box" style="display:inline-block;width:77%;padding:0;text-align:left;">
-                                                    <p style="font-family: Arial;font-size: 14px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.57;letter-spacing: 0.28px;text-align: left;color: #000000;margin-top:0;margin-bottom:0px;"><?= model.contact_msg ?></p>
-                                                </div>
-                                            </div>
-                                            <div style="padding:0;text-align:left;padding-top: 20px;">
-                                                <p style="font-family: Arial;font-size: 16px;font-weight: normal;font-stretch: normal;font-style: normal;line-height: 1.25;letter-spacing: 0.32px;text-align: left;color: #000000;margin-bottom: 0;">Best Wishes<br> Team Collegey</p>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
                             </div>
 

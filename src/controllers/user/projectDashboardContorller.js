@@ -592,7 +592,7 @@ exports.progamesList = async (req, res, next) => {
 
 	var program = await userProgramModel.aggregate(
 		Programaggregate
-	);
+	).sort({_id:-1});
 	res.status(200).json({
 		status: 'success',
 		program,
