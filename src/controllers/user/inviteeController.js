@@ -73,7 +73,14 @@ const _new = async function (req, res, next) {
             obj = PostData;
             invitee = await inviteePostService.saveRequest(obj); 
         }
-        sendEmail(emailType.NEW_WAITLIST_ADD_EMAIL,invitee);  
+        if(PostData.type == 'student')
+        {
+            sendEmail(emailType.NEW_WAITLIST_ADD_EMAIL,invitee);  
+        }
+        else if(PostData.type == 'mentor')
+        {
+            sendEmail(emailType.MENTOR_REQUEST_SUBMITEED,invitee);
+        }
         res.status(200).json({
             status: "success",
             message: "Invitee created successfully",

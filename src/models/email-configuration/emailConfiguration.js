@@ -66,16 +66,13 @@ const emailConfigurationSchema = new mongoose.Schema(
 		new_member_reffered_template: [{
 			email_template_type: { type: String },
 			email_subject: { type: String },
-			inviteBy: { type: String },
-			
+			email_top_header_text: { type: String },			
 			email_content: {type: String},
 		}],
 		new_mentor_contact_template: [{
 			email_template_type: { type: String },
 			email_subject: { type: String },
-			mentorName: { type: String },
-			mentorEmail: { type: String },
-			message: { type: String },
+			email_top_header_text: { type: String },
 			email_content: {type: String},
 		}],
 		student_project_approval_Invite_template: [{
