@@ -65,6 +65,11 @@ passport.use(
 				const filters = { email: email };
 				const user = await User.findOne(filters);
 
+				if(!user)
+				{
+					return done(null, false, { message: 'Looks like your login information is incorrect. Please try again' });		
+				}
+
 				if(user.attemptBlock == true)
 				{
 					return done(null, false, { message: 'Please reset password' });	

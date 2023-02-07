@@ -10,4 +10,6 @@ router.route('/:id')
     .put(validateProgram,progarmController.edit)
     .delete(progarmController.delete)
 
+router.post('/getProgramByName',progarmController.getProgramByName);
+
 module.exports = router;
