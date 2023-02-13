@@ -1885,6 +1885,22 @@ exports.UserProgramSuccess = async (req, res) => {
 
 exports.UserProjectSuccess = async (req, res) => {
 	let postData = req.body;
+
+	// Check User Already Payment
+
+	let checkUserPayable = await userProjectModel.findOne({
+		project_id: postData.project_id,
+		user_id: postData.user_id
+	});
+
+	if(checkUserPayable)
+	{
+		return res.status(400).json({
+			status: 'error',
+			message: 'You have already join this project',
+		});
+	}
+
 	const Fetch_projectData = await ProjectsModel.findOne({ _id: postData.project_id });
 	const projectlins = new userProjectModel({
 		project_id: postData.project_id,
