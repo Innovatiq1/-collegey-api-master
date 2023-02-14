@@ -171,7 +171,8 @@ exports.UpdateStudentProjectStatus  = async (req, res) => {
 	{
 		obj = {
 			projectStatus: 'pending',
-			projectType: 'collegey',
+			// projectType: 'collegey',
+			projectType: 'student',
 			status: 1,
 		} 
 	}
