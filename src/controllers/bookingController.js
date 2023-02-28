@@ -13,6 +13,8 @@ const factory = require('./factoryFunctions/handlerFactory');
 
 // model import
 const PaidProject = require('../models/PaidProjectForStudent');
+const userProjectModel = require('../models/userProjects');
+
 const { ObjectId } = require('bson');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
@@ -26,6 +28,20 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 		return res.status(400).json({
 			status: 'error',
 			message: 'Slot is not available',
+		});
+	}
+    
+	// Check User Already Payment
+	let checkUserPayable = await userProjectModel.findOne({
+		project_id: req.params.projectId,
+		user_id: req.user.id
+	});
+
+	if(checkUserPayable)
+	{
+		return res.status(400).json({
+			status: 'error',
+			message: 'You have already join this project',
 		});
 	}
 

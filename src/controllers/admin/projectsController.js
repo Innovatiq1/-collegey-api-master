@@ -1,5 +1,6 @@
 import { projectPostServices, projectGetServices } from '../../services/projectServices';
 import { emailType,sendEmail } from '../../utilities/emailHelper';
+import userProjectWatchModel from '../../models/userProjectWatchlist';
 
 // Load Modal
 import Projects from '../../models/Projects';
@@ -170,7 +171,8 @@ exports.UpdateStudentProjectStatus  = async (req, res) => {
 	{
 		obj = {
 			projectStatus: 'pending',
-			projectType: 'collegey',
+			// projectType: 'collegey',
+			projectType: 'student',
 			status: 1,
 		} 
 	}
@@ -325,6 +327,7 @@ const _delete = async function(req, res, next) {
 	try {
 		const project = await projectPostServices.deleteProject(req.params.id);
 		if (project) {
+			await userProjectWatchModel.deleteOne({ project_id: req.params.id });
 			res.status(200).json({
 				status: 'success',
 				message: 'project deleted successfully'

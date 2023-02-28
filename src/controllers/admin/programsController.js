@@ -1,4 +1,6 @@
 import { programPostServices, programGetServices } from "../../services/programServices";
+import ProgramsModel from '../../models/Programs';
+
 export async function index (req, res, next) {
     try{
         const programs = await programGetServices.getAll(req.query);
@@ -71,4 +73,63 @@ export async function view (req, res, next) {
     }catch(e){
         next(e);
     }
+}
+
+export async function getProgramByName(req, res, next) {
+
+    const postData = req.body;
+    const searchText = {};
+    const searchLimit = postData.limit ? postData.limit : 10;
+    if (postData.username != null && postData.username != '') {
+        let regex = new RegExp(postData.username, "i");
+        searchText['$regex'] = regex;
+    }
+    let where = {
+        $and: [
+            {
+                title: searchText
+            }
+        ]
+    }
+    
+    let aggregate = [
+        {
+            $match: where
+        },
+        {
+            $facet: {
+                data: [{ $limit: Number(searchLimit) }],
+                pageInfo: [
+                    {
+                        $group: { _id: null, count: { $sum: 1 } },
+                    },
+                ],
+            },
+        },
+        {
+            $unwind: { path: "$pageInfo", preserveNullAndEmptyArrays: true },
+        },
+        {
+            $project: {
+                item: "$data",
+                pageInfo: {
+                    count: '$pageInfo.count'
+                }
+
+
+            },
+        },
+
+    ];
+
+    var programList = await ProgramsModel.aggregate(
+        aggregate
+    );
+
+    res.status(200).json({
+        status: "success",
+        message: "Got Program List",
+        results: programList[0].pageInfo.count,
+        data: { data: programList[0].item }
+    });
 }
