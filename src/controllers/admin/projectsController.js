@@ -232,7 +232,8 @@ exports.UpdateMentorProjectStatus  = async (req, res) => {
 	if(postData.status == 'active')
 	{
 		obj = {
-			projectStatus: 'ongoing',
+			//projectStatus: 'ongoing',
+			projectStatus: 'pending',
 			projectType: 'mentors',
 			status: 1,
 		} 

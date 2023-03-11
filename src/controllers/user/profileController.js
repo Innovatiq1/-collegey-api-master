@@ -2564,7 +2564,7 @@ exports.mentorDashboardNew = async function (req, res, next) {
 					{
 						"projectStatus":
 						{
-							$in: ["ongoing", "pending"]
+							$in: ["ongoing"]
 						}
 					},
 				]

@@ -1964,6 +1964,11 @@ exports.UserProjectSuccess = async (req, res) => {
 			{ $push: { "projectMembers": postData.user_id, $position: 0 } }
 		);
 
+		let updateProjectStatus = await ProjectsModel.findOneAndUpdate(
+			{ _id: postData.project_id },
+			{ "projectStatus": "ongoing"}
+		);
+
 		let mobExtension;
 		if(typeof userData.student_profile.ways_to_be_in_touch !== 'undefined') 
 		{
