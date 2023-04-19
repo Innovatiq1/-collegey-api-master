@@ -2470,7 +2470,7 @@ exports.mentorDashboardNew = async function (req, res, next) {
 					as: 'mentor'
 				}
 			},
-			{$unwind: '$mentor'},
+			{ $unwind: { path: "$mentor",  preserveNullAndEmptyArrays: true }  },
 			{
 				$lookup:{
 					from: 'users',
@@ -2479,7 +2479,7 @@ exports.mentorDashboardNew = async function (req, res, next) {
 					as: 'projectOwner'
 				}
 			},
-			{$unwind: '$projectOwner'},
+			{ $unwind: { path: "$projectOwner",  preserveNullAndEmptyArrays: true }  },
 			{
 				$lookup: {
 					from: 'users',
