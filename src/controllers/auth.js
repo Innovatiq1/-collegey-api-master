@@ -73,7 +73,9 @@ exports.login = async function(req, res, next) {
 };
 
 exports.getLinkedinAccessToken = async function(req, res, next) {
+	//console.log("=====",req.query.code)
 	let postData = req.body;
+	console.log("postData",postData);
 	try 
     {   
 		const body = {
@@ -83,17 +85,23 @@ exports.getLinkedinAccessToken = async function(req, res, next) {
 			client_id: postData.client_id,
 			client_secret: postData.client_secret
 		};
+		
 		new Promise((resolve, reject) => {
 			request.post({url: 'https://www.linkedin.com/oauth/v2/accessToken', form: body }, (err, response, body) =>
 			{ 
 				var accesstoken = "";
 				if(err) {
+					console.log("======err",err)
+					
 					reject(err);
 				}
 				else {
 					console.log("response.statusCode555",response.statusCode);
+					console.log("response.",response);
+					console.log("response.",response.body);
 					if (response.statusCode == 200) 
 					{
+						console.log("===========",response.body)
 					  var result  = JSON.parse(response.body);
 					  accesstoken = result.access_token;
 					  return res.status(200).json({
@@ -110,6 +118,7 @@ exports.getLinkedinAccessToken = async function(req, res, next) {
     }
     catch(error)
     {   
+		console.log("======error",error)
         next(error);
 		res.status(400).json({
 			status: 'error',
