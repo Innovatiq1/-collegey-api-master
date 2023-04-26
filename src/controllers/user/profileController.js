@@ -2459,8 +2459,22 @@ exports.mentorDashboardNew = async function (req, res, next) {
 		
 		let getProjectsCollegytypeAggregate = [
 			{
-				$match: { projectType:'collegey' },
+				$match:
+				{
+					$and:
+						[
+							{ projectType:'collegey' },
+							{
+								"projectStatus":
+								{
+									$nin: ["new", "reject", "completed"]
+								}
+							},
+						],
+					status: 1
+				}
 			},
+			
 			{ $sort: { createdAt: -1 } },
 			{
 				$lookup:{
