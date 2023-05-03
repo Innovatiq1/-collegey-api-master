@@ -5,7 +5,7 @@ data
 ./dist
 dist
 .eslintrc.js
-.env
+
 
 *.eslintignore
 *.prettierignore
