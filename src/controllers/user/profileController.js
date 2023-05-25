@@ -2485,6 +2485,7 @@ exports.mentorDashboardNew = async function (req, res, next) {
 				}
 			},
 			{ $unwind: { path: "$mentor",  preserveNullAndEmptyArrays: true }  },
+
 			{
 				$lookup:{
 					from: 'users',
@@ -2493,7 +2494,8 @@ exports.mentorDashboardNew = async function (req, res, next) {
 					as: 'projectOwner'
 				}
 			},
-			{ $unwind: { path: "$projectOwner",  preserveNullAndEmptyArrays: true }  },
+			
+			{$unwind: { path: "$projectOwner",  preserveNullAndEmptyArrays: true }  },
 			{
 				$lookup: {
 					from: 'users',
@@ -2502,8 +2504,8 @@ exports.mentorDashboardNew = async function (req, res, next) {
 					as: 'projectMembers'
 				}
 			},
-		]
 		
+		]
 		var allCollegyProject = await ProjectsModel.aggregate(
 			getProjectsCollegytypeAggregate
 		);
