@@ -21,6 +21,7 @@ router.route('/review').get(publicController.getAllReviews);
 // Get User Reward
 router.route('/userReward').post(publicController.getUserReward);
 
+
 // Get All Teams
 router.route('/team').get(publicController.getAllTeams);
 
