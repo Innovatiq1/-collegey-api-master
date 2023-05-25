@@ -27,6 +27,9 @@ router.route('/team').get(publicController.getAllTeams);
 // Get All Teams admin side
 router.route('/listteam').get(publicController.getTeamAdmin);
 
+// Get the All event in sequel
+router.route('/listAllsequelEvents').get(publicController.listAllsequelEvents);
+
 // Add Teams
 // router.route('/addteam').post(publicController.addTeamMember);
 
