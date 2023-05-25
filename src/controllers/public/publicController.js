@@ -27,6 +27,10 @@ const catchAsync = require('../../utils/catchAsync');
 // Importing constants
 const { sdg } = require('../../constants/sdg');
 
+// Request Promise
+const rp = require('request-promise');
+const axios = require('axios');
+
 // Get ALL
 // exports.getAllFAQs = factory.getAllActiveList(FAQ);
 
@@ -284,6 +288,64 @@ export async function getTeamAdmin(req, res, next) {
     } 
 }
 
+export async function listAllsequelEvents(req, res, next) {
+	
+	try
+    {
+		// Genrate the token
+		
+		const tokenRequest = await axios.post(
+			"https://api.introvoke.com/api/oauth/token",
+			{
+				"client_id": "2df5b7bd-d748-43ec-8575-91cbb044850d",
+				"client_secret": "W0aysVYmwn$s3Ri^eN9z3uPAzCCKtNC!@U-I2tIzka9T5cdxW&X-NiIL8z6L",
+				"audience": "https://www.introvoke.com/api",
+				"grant_type": "client_credentials"
+			},
+		);
+		let accesToken = tokenRequest.data.access_token;
+		if(accesToken == '')
+		{
+			return res.status(400).json({
+				status: 'error',
+				message: 'Token genrate failed',
+			});
+		}
+		
+		// Fetch the events
+
+		const configApi = {
+            method: 'get',
+            url: 'https://api.introvoke.com/api/v1/company/2df5b7bd-d748-43ec-8575-91cbb044850d/events',
+            headers: { 
+                'Authorization': 'Bearer '+accesToken
+            }
+        };
+        const responseEventlist = await axios(configApi);
+		
+		if(responseEventlist.data == '')
+		{
+			return res.status(400).json({
+				status: 'error',
+				message: 'event faild to fetch',
+			});
+		}
+
+		return res.status(200).json({
+			status: 'Success',
+			message: 'Fetched event successfully',
+			data: responseEventlist.data
+		});
+
+	}
+	catch(error)
+	{
+		res.status(400).json({
+			status: 'error',
+			message: 'Invalid Payload',
+		});
+	}
+}
 export async function updateTeamMember(req, res, next) {
 	let postData = req.body;
 	if(req.body.selectFile.fileLocation){
