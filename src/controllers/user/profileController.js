@@ -109,6 +109,7 @@ exports.edit = async function(req, res, next) {
 exports.editMentor = async function(req, res, next) {
 	try {
 		const userId = req.user._id;
+		
 		const profile = await userPostServices.updateMentorProfile(
 			req.body,
 			userId,

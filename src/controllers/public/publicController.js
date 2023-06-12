@@ -319,6 +319,7 @@ export async function listAllsequelEvents(req, res, next) {
             url: 'https://api.introvoke.com/api/v1/company/2df5b7bd-d748-43ec-8575-91cbb044850d/events',
             headers: { 
                 'Authorization': 'Bearer '+accesToken
+				
             }
         };
         const responseEventlist = await axios(configApi);
