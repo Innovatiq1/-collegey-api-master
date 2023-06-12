@@ -288,7 +288,7 @@ export async function getTeamAdmin(req, res, next) {
     } 
 }
 
-export async function listAllsequelEvents(req, res, next) {
+export async function  listAllsequelEvents(req, res, next) {
 	
 	try
     {
