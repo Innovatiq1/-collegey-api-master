@@ -36,98 +36,98 @@ const axios = require('axios');
 
 export async function getAllFAQs(req, res, next) {
 
-    try {
-        let postData = req.body;
+	try {
+		let postData = req.body;
 
-		let Allaggregate = [ 
-            { $sort: { position: 1 } },
+		let Allaggregate = [
+			{ $sort: { position: 1 } },
 			{
 				$lookup: {
-				  from: "faqs",
-				  let: { id: "$_id" },
-				  pipeline: [
-					{
-					  $match: {
-						$expr: {
-						  $and: [
-							{ $eq: ["$category", "$$id"] },
-						  ],
+					from: "faqs",
+					let: { id: "$_id" },
+					pipeline: [
+						{
+							$match: {
+								$expr: {
+									$and: [
+										{ $eq: ["$category", "$$id"] },
+									],
+								},
+							},
 						},
-					  },
-					},
-					{ $sort: { createdAt: 1 } },
-				  ],
-				  as: "faqdata",
+						{ $sort: { createdAt: 1 } },
+					],
+					as: "faqdata",
 				},
 			},
-            {   
-                $project: { 
-                  _id:1,
-                  name:1,
-                  position:1,
-                  faqdata: "$faqdata",
-                } 
-            },  
-        ];
+			{
+				$project: {
+					_id: 1,
+					name: 1,
+					position: 1,
+					faqdata: "$faqdata",
+				}
+			},
+		];
 
-        var all_faqs = await faqCategories.aggregate(
-            Allaggregate
-        );
+		var all_faqs = await faqCategories.aggregate(
+			Allaggregate
+		);
 
-        let totalrecord = await FAQ.find().count();    
-        res.status(200).json({   
-            status: "success",
-            message: "Got all faqs successfully",
-            data: all_faqs,
-            totalRecords: totalrecord,
-        });
+		let totalrecord = await FAQ.find().count();
+		res.status(200).json({
+			status: "success",
+			message: "Got all faqs successfully",
+			data: all_faqs,
+			totalRecords: totalrecord,
+		});
 
-    } catch (error) {
-        next(error);
+	} catch (error) {
+		next(error);
 		res.status(400).json({
 			status: 'error',
 			message: 'Faqs fetch failed',
 		});
-    }
+	}
 
 }
 
 export async function getAllCategory(req, res, next) {
-    try {
-        const allCategories = await faqCategories.find();
+	try {
+		const allCategories = await faqCategories.find();
 
-        res.status(200).json({
-            status: 'success',
-            message: 'Got all faq categories successfully',
-            data: allCategories
-        });
-    } catch (error) {
-        res.status(400).json({
+		res.status(200).json({
+			status: 'success',
+			message: 'Got all faq categories successfully',
+			data: allCategories
+		});
+	} catch (error) {
+		res.status(400).json({
 			status: 'failed',
 			message: 'Failed to get faq categories.',
 		});
-    }
+	}
 }
 
 exports.getAllReviews = factory.getAllActiveList(Review);
 //exports.getAllTeams = factory.getAllActiveList(Team);
 
 // Get All Team 
-export async function getAllTeams(req,res,next){
-    try {
-        const allTeam = await Team.find();
-        
-        res.status(200).json({
-            status: 'success',
-            message: 'Got all team member successfully',
-            data: {data:allTeam}
-        });
-    } catch (error) {
-        res.status(400).json({
+export async function getAllTeams(req, res, next) {
+	try {
+		const allTeam = await Team.find();
+
+		res.status(200).json({
+			status: 'success',
+			message: 'Got all team member successfully',
+			data: { data: allTeam }
+		});
+	} catch (error) {
+		res.status(400).json({
 			status: 'failed',
 			message: 'Failed to get team.',
 		});
-    }
+	}
 }
 
 exports.getAllCollegeLogo = factory.getAllActiveList(CollegeLogo);
@@ -234,66 +234,61 @@ exports.uploadCustAdminFile = catchAsync(async (req, res, next) => {
 
 export async function addTeamMember(req, res, next) {
 	let postData = req.body;
-	postData['image']=req.body.selectFile.fileLocation;
+	postData['image'] = req.body.selectFile.fileLocation;
 
 	const memberData = new Team({
 		name: postData?.name,
-        designation: postData?.designation,
-        description: postData?.description,
-        lindkin: postData?.lindkin,
-        image: postData?.image,
-        position: postData?.position,
-        active: postData?.active,
+		designation: postData?.designation,
+		description: postData?.description,
+		lindkin: postData?.lindkin,
+		image: postData?.image,
+		position: postData?.position,
+		active: postData?.active,
 	});
 
-	try
-    {     
-        const teamMemberData = await memberData.save();
-        res.status(200).json({
+	try {
+		const teamMemberData = await memberData.save();
+		res.status(200).json({
 			status: 'Success',
 			message: 'Member add successfully',
 		});
-    }
-    catch(error)
-    {
+	}
+	catch (error) {
 		console.log(error)
-        next(error);
+		next(error);
 		res.status(400).json({
 			status: 'error',
 			message: 'Add Member failed',
 		});
-    } 
+	}
 }
 
 export async function getTeamAdmin(req, res, next) {
 
-	try
-    {     
-        const teamMemberData = await Team.find({}).sort({_id:1});
+	try {
+		const teamMemberData = await Team.find({}).sort({ _id: 1 });
 
-        res.status(200).json({
+		res.status(200).json({
 			status: 'Success',
 			message: 'Fetched Members successfully',
 			data: teamMemberData
 		});
-    }
-    catch(error)
-    {
+	}
+	catch (error) {
 		console.log(error)
-        next(error);
+		next(error);
 		res.status(400).json({
 			status: 'error',
 			message: 'Fetched Members failed',
 		});
-    } 
+	}
 }
 
 export async function listAllsequelEvents(req, res, next) {
-	
-	try
-    {
+
+	try {
 		// Genrate the token
-		
+
 		const tokenRequest = await axios.post(
 			"https://api.introvoke.com/api/oauth/token",
 			{
@@ -304,28 +299,26 @@ export async function listAllsequelEvents(req, res, next) {
 			},
 		);
 		let accesToken = tokenRequest.data.access_token;
-		if(accesToken == '')
-		{
+		if (accesToken == '') {
 			return res.status(400).json({
 				status: 'error',
 				message: 'Token genrate failed',
 			});
 		}
-		
+
 		// Fetch the events
 
 		const configApi = {
-            method: 'get',
-            url: 'https://api.introvoke.com/api/v1/company/2df5b7bd-d748-43ec-8575-91cbb044850d/events',
-            headers: { 
-                'Authorization': 'Bearer '+accesToken
-				
-            }
-        };
-        const responseEventlist = await axios(configApi);
-		
-		if(responseEventlist.data == '')
-		{
+			method: 'get',
+			url: 'https://api.introvoke.com/api/v1/company/2df5b7bd-d748-43ec-8575-91cbb044850d/events',
+			headers: {
+				'Authorization': 'Bearer ' + accesToken
+
+			}
+		};
+		const responseEventlist = await axios(configApi);
+
+		if (responseEventlist.data == '') {
 			return res.status(400).json({
 				status: 'error',
 				message: 'event faild to fetch',
@@ -339,8 +332,7 @@ export async function listAllsequelEvents(req, res, next) {
 		});
 
 	}
-	catch(error)
-	{
+	catch (error) {
 		res.status(400).json({
 			status: 'error',
 			message: 'Invalid Payload',
@@ -350,53 +342,49 @@ export async function listAllsequelEvents(req, res, next) {
 
 export async function updateTeamMember(req, res, next) {
 	let postData = req.body;
-	if(req.body.selectFile.fileLocation){
-		postData['image']=req.body.selectFile.fileLocation;
+	if (req.body.selectFile.fileLocation) {
+		postData['image'] = req.body.selectFile.fileLocation;
 	}
-	else{
+	else {
 		postData = req.body;
 	}
-	
-	try
-    {     
-        const motTitleData = await Team.findOneAndUpdate({_id:req.params.id},postData);
 
-        res.status(200).json({
+	try {
+		const motTitleData = await Team.findOneAndUpdate({ _id: req.params.id }, postData);
+
+		res.status(200).json({
 			status: 'Success',
 			message: 'Member Updated successfully',
 		});
-    }
-    catch(error)
-    {
+	}
+	catch (error) {
 		console.log(error)
-        next(error);
+		next(error);
 		res.status(400).json({
 			status: 'error',
 			message: 'Update Member failed',
 		});
-    } 
+	}
 }
 
 export async function deleteTeamMember(req, res, next) {
 	let postData = req.params.id;
-	
-	try
-    {     
-        const motTitleData = await Team.deleteOne({_id:postData});
 
-        res.status(200).json({
+	try {
+		const motTitleData = await Team.deleteOne({ _id: postData });
+
+		res.status(200).json({
 			status: 'Success',
 			message: 'Member Deleted successfully',
 		});
-    }
-    catch(error)
-    {
+	}
+	catch (error) {
 		console.log(error)
-        next(error);
+		next(error);
 		res.status(400).json({
 			status: 'error',
 			message: 'Delete Member failed',
 		});
-    } 
+	}
 }
 
