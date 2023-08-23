@@ -33,15 +33,15 @@ exports.universityInfo = async (res) => {
         let regex = new RegExp(res, "i");
 		where["name"] = regex;
     
-  let listUniversity = await university.find(where);
+  let listUniversity = await university.find(where).sort({ "createdAt": -1 });
     return{
         message: 'University Fetched Success',
         response: listUniversity
     };
     }else {
         
-        let listUniversity = await university.find();
-    return{
+        let listUniversity = await university.find().sort({ "createdAt": -1 });
+        return{
         message: 'University Fetched Success',
         response: listUniversity
     };
