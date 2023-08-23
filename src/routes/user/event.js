@@ -32,7 +32,9 @@ router.route('/attend').post(eventController.postattendEvent);
 
 router.route('/Follower').post(eventController.postMentorFollow);
 router.route('/UnFollower').post(eventController.postUnFollower);
-router.route('/univerCityFollower').post(eventController.postUniverCiyFollow);
+router.route('/univercityFollowCount').post(eventController.UniverCityFollow);
+router.route('/UniVersityunFollower').post(eventController.postUniverCiyUnFollow);
+router.route('/univerCityFollower').post(eventController.postUniverCiyUnFollow);
 router.route('/user').get(eventController.postUser);
 
 module.exports = router;

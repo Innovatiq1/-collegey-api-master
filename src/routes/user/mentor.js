@@ -9,6 +9,7 @@ router.route('/createMentor').post(mentorSerivce.addMentor);
 router.route('/getUniversities').get(mentorSerivce.getUniv);
 router.route('/createUniversities').post(mentorSerivce.addUniv);
 router.route('/getUser').get(mentorSerivce.getUser);
+router.route('/getUniversity').get(mentorSerivce.getUniversity);
 
 module.exports = router;
 

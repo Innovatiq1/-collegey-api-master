@@ -1,4 +1,5 @@
 import BannerImage from '../models/bannerImages/bannerImage';
+//import BannerImage from '../models/bannerImages/bannerImage';
 import { getQueryParams } from '../utilities/helpers';
 
 exports.bannerPostServices = {
