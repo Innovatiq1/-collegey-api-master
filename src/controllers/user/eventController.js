@@ -1,6 +1,7 @@
 const Event = require('../../models/Event');
 const MentorFollow = require('../../models/User');
 const University = require('../../models/highSchools/universityModel');
+const University1 = require('../../models/university/university');
 const { ObjectId } = require('bson');
 
 const factory = require('../factoryFunctions/handlerFactory');
@@ -204,6 +205,7 @@ exports.getAllEventCounter = factory.getAllCounter(Event);
 exports.postattendEvent = factory.getpostEvent(Event);
 exports.postMentorFollow = factory.getpostMenorFollow(MentorFollow);
 exports.postUniverCiyFollow = factory.getpostMenorFollow(University);
+exports.UniverCityFollow = factory.getpostMenorFollow(University1);
 exports.getEvent = factory.getOne(Event);
 exports.createEvent = factory.createOne(Event);
 exports.updateEvent = factory.updateOne(Event);
@@ -232,3 +234,28 @@ exports.postUnFollower = async (req, res) => {
 		message: 'Unfollow Successfully',
 	});
 };
+
+exports.postUniverCiyUnFollow = async (req, res) => {
+	let postData = req.body;
+	const userData = await University1.findOne({ _id: postData.id });
+	var searchUser = postData.userid;
+	let index = -1;
+
+	for (let i = 0; i < userData.mentorFollow.length; i++) {
+		if (userData.mentorFollow[i].user == searchUser) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index !== -1) {
+		userData.mentorFollow.splice(index, 1);
+	}
+	let result = await University1.findOneAndUpdate({ _id: postData.id }, userData);
+
+	res.status(200).json({
+		status: 'Success',
+		message: 'Unfollow Successfully',
+	});
+};
+

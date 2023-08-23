@@ -1,11 +1,12 @@
 const mentor = require('../models/mentor');
 const user = require('../models/User');
+const university = require('../models/university/university');
 const universities = require('../models/highSchools/universityModel')
 
 exports.info = async (res) => {
     let listMentor = await mentor.find({});
     return{
-        message: 'Mentors Fetched Success',
+        message: 'Mentors Fetched Success',  
         response: listMentor
     };
 }
@@ -22,6 +23,34 @@ exports.userInfo = async (res) => {
         response: listMentor
     };
 }
+exports.universityInfo = async (res) => {
+    let where={}
+    console.log("==",res)
+    if(res != '' || res != null)
+    
+    { 
+        console.log("=====test=====")
+        let regex = new RegExp(res, "i");
+		where["name"] = regex;
+    
+  let listUniversity = await university.find(where);
+    return{
+        message: 'University Fetched Success',
+        response: listUniversity
+    };
+    }else {
+        
+        let listUniversity = await university.find();
+    return{
+        message: 'University Fetched Success',
+        response: listUniversity
+    };
+
+    }
+    
+    
+}
+
 
 exports.createMentorService = async (data) => {
     let mentors = await mentor.create(data);

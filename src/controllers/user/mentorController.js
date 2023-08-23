@@ -19,6 +19,18 @@ exports.getUser = async (req, res) => {
         res.status(400).send(err);
     }
 };
+exports.getUniversity = async (req, res) => {
+    try {
+        let filterValue = req.query.filterName;
+        console.log("===filterValue==",filterValue)
+        let r = await mentorService.universityInfo(filterValue);
+        res.status(200).send(r);
+    } catch (err) {
+        console.log("Error is : " + err);
+        res.status(400).send(err);
+    }
+};
+
 
 exports.addMentor = async (req, res) => {
     try {
