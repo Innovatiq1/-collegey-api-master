@@ -7,6 +7,9 @@ router.route('/')
     .post(projectController.new)
 
 router.route('/studentnewproject').get(projectController.getStudentProject);
+router.route('/usernotification').get(projectController.getUserNotification);
+router.route('/unreadnotificationCount').get(projectController.getUnReadNotificationCount);
+router.route('/notificationstatusUpdate/:id').get(projectController.notificationUpdate);
 router.route('/mentornewproject').get(projectController.getMentorProject); 
 router.route('/getProjectPaymentData').post(projectController.getProjectPaymentData);
 

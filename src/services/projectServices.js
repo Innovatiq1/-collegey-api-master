@@ -1,6 +1,7 @@
 import Projects from '../models/Projects';
 import { getQueryParams } from '../utilities/helpers';
 import userProjectModel from '../models/userProjects';
+import users from '../models/User';
 
 exports.projectPostServices = {
 	async saveRequest(requestData) {
@@ -75,6 +76,10 @@ exports.projectGetServices = {
 		const params = getQueryParams(query, status);
 		return await Projects.paginate({ $or: [{ projectStatus: 'new' }, { projectStatus: 'reject' }], projectType: { $not: { $in: ["mentors"] } } }, { page: params.page, limit: params.limit, sort: params.sortBy });
 	},
+	// async getAllStudentProject(query, status = null) {
+	// 	const params = getQueryParams(query, status);
+	// 	return await Projects.paginate({ $or: [{ projectStatus: 'new' }, { projectStatus: 'reject' }], projectType: { $not: { $in: ["mentors"] } } }, { page: params.page, limit: params.limit, sort: params.sortBy });
+	// },
 
 	async getMentorProjectWise(query, status = null) {
 		const params = getQueryParams(query, status);
@@ -82,6 +87,81 @@ exports.projectGetServices = {
 		return await Projects.paginate({ $or: [{ projectStatus: 'new' }, { projectStatus: 'reject' }], projectType: { $in: "mentors" } }, { page: params.page, limit: params.limit, sort: params.sortBy });
 
 	},
+
+	async getUserNotification(req) {
+		//const params = getQueryParams(query, status);
+		let userlist= await users.find({_id:req.user._id})
+		let notification =userlist[0].notification
+		console.log("sssssssssssssss",userlist[0].notification)
+		for (const user of notification) {
+		
+		await users.findOneAndUpdate(
+			{ _id: req.user._id, 'notification._id': user._id },
+			{
+			  $set: {
+				'notification.$.status': "Reading"
+				//'notifications.$.value': 'two updated',
+			  }
+			},
+		   );
+		}
+		// return await Projects.find({projectType: { $in: ["mentors"] },$or: [ { projectStatus: 'new' },{ projectStatus: 'reject' } ]}).sort({_id: -1 }); 
+		return await users.find({_id:req.user._id})
+
+	},
+	async notificationUpdate(req, id) {
+
+		//const params = getQueryParams(query, status);
+		// let userlist= await users.find({_id:req.user._id})
+		// let notification =userlist[0].notification
+		// console.log("sssssssssssssss",userlist[0].notification)
+		// for (const user of notification) {
+			try {
+				let result = await users.findOneAndUpdate(
+					{ _id: req.user._id, 'notification._id': id},
+					{
+					  $set: {
+						'notification.$.isRead': true
+						//'notifications.$.value': 'two updated',
+					  }
+					},{
+						new: true,
+						
+					}
+				   );
+				   return  result
+				// console.log("result :",result); 
+				;
+			} catch (error) {
+				next(error);
+				return error
+			}
+		
+		
+		//}
+		// return await Projects.find({projectType: { $in: ["mentors"] },$or: [ { projectStatus: 'new' },{ projectStatus: 'reject' } ]}).sort({_id: -1 }); 
+		//return await users.find({_id:req.user._id})
+
+	},
+
+
+	async getUnReadUserNotificationCount(req) {
+		//const params = getQueryParams(query, status);
+		try {
+			const user = await users.findById(req.user.id);
+			if (!user) {
+			  return 0;
+			}
+	  
+			const unreadCount = user.notification.filter(notification => !notification.isRead).length;
+			return unreadCount;
+		  } catch (error) {
+			console.error('Error fetching unread notification count:', error);
+			return 0;
+		  }
+		
+	},
+
 
 	async getProjectsListing(query, status = null) {
 		const params = getQueryParams(query, status);
