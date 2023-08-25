@@ -87,7 +87,7 @@ router.route('/universitylogo').get(publicController.getAllUniversityLogo);
 router.route('/collegelogo').get(publicController.getAllCollegeLogo);
 
 //get meet out team title
-const meetOurTeam = require('../user/meetOurTeam'); 
+const meetOurTeam = require('../user/meetOurTeam');
 router.use('/meetOurTeam', meetOurTeam);
 
 //collegey fund
