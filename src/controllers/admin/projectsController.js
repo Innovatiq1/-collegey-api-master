@@ -39,6 +39,47 @@ export async function getStudentProject(req, res, next) {
 		next(e);
 	}
 }
+export async function getUserNotification(req, res, next) {
+	try { 
+		
+		const projects = await projectGetServices.getUserNotification(req);
+		res.status(200).json({
+			status: 'success',
+			message: 'projects retrieved successfully',
+			data: projects
+		});
+	} catch (e) {
+		next(e);
+	}
+}
+export async function getUnReadNotificationCount(req, res, next) {
+	try { 
+		
+		const count = await projectGetServices.getUnReadUserNotificationCount(req);
+		res.status(200).json({
+			status: 'success',
+			message: 'projects retrieved successfully',
+			data: count
+		});
+	} catch (e) {
+		next(e);
+	}
+}
+export async function notificationUpdate(req, res, next) {
+	try { 
+		
+		const projects = await projectGetServices.notificationUpdate(req,req.params.id);
+		res.status(200).json({
+			status: 'success',
+			message: 'projects retrieved successfully',
+			data: projects
+		});
+	} catch (e) {
+		next(e);
+	}
+}
+
+
 
 export async function getMentorProject(req, res, next) {
 	try { 
@@ -227,11 +268,11 @@ exports.UpdateStudentProjectStatus  = async (req, res) => {
 
 exports.UpdateMentorProjectStatus  = async (req, res) => {
 	let postData = req.body;
-	let obj;
+	let obj2;
 	const projectData = await Projects.findOne({_id: postData.project_id});
 	if(postData.status == 'active')
 	{
-		obj = {
+		obj2 = {
 			//projectStatus: 'ongoing',
 			projectStatus: 'pending',
 			projectType: 'mentors',
@@ -255,12 +296,13 @@ exports.UpdateMentorProjectStatus  = async (req, res) => {
 		user_id: projectData.mentor,
 		status: 1,
 	});
+
 	
 	try { 
-        let result = await Projects.findOneAndUpdate(
+		let result = await Projects.findOneAndUpdate(
             {_id: postData.project_id},
-            obj
-        );  
+            obj2
+        ); 
 		if(postData.status == 'active')
 		{ 
 			const userProjectData = await projectlins.save();
@@ -270,6 +312,52 @@ exports.UpdateMentorProjectStatus  = async (req, res) => {
 		{
 			sendEmail(emailType.STUDENT_PROJECT_REJECT_EMAIL,project_mailObj);
 		}
+        
+		  
+		// console.log("====res==",result1)
+
+		if(postData.status == 'active')
+		{ 
+			const userProjectData = await projectlins.save();
+			sendEmail(emailType.STUDENT_PROJECT_APPOROVAL_EMAIL,project_mailObj);
+		}
+		else
+		{
+			sendEmail(emailType.STUDENT_PROJECT_REJECT_EMAIL,project_mailObj);
+		}
+		let obj=[{
+			title:projectData.title+" "+ "project approved",
+			isRead:false
+		}]
+        //console.log("projectData.mentor",notification.title)
+		//let users =await Users.find({_id:projectData.mentor})
+		let result2 = await userModel.findOneAndUpdate(
+			{ _id:projectData.mentor._id },
+			{ $push: { 'notification':{ $each: obj, $position: 0 } } },
+
+			
+		);
+		let result1 = await userModel.find(
+			{type:"student"}
+			
+		);
+
+		let obj1=[{
+			title:projectData.title,
+			isRead:false
+		}]
+		
+
+		for(const user of result1){
+			console.log("=======",user._id)
+			//user.notification= obj1
+			let result = await userModel.findOneAndUpdate(
+				{ _id:user._id },
+				{$push: { 'notification':{ $each: obj1, $position: 0 } }})
+			//await user.save()
+
+		}
+		
 		
 		res.status(200).json({
 			status: 'success',
@@ -277,13 +365,108 @@ exports.UpdateMentorProjectStatus  = async (req, res) => {
 			data: result
 		});
     } catch (error) {
-		//console.log("error",error);
+		console.log("error",error);
         res.status(400).json({
 			status: 'faild',
 			message: 'projects status update faild',
 		});
     }
 }
+// exports.UpdateMentorProjectStatus  = async (req, res) => {
+// 	let postData = req.body;
+// 	let obj;
+// 	const projectData = await Projects.findOne({_id: postData.project_id});
+// 	if(postData.status == 'active')
+// 	{
+// 		obj = {
+// 			//projectStatus: 'ongoing',
+// 			projectStatus: 'pending',
+// 			projectType: 'mentors',
+// 			status: 1,
+// 		} 
+// 	}
+// 	else
+// 	{
+// 		obj = {
+// 			projectStatus: 'reject',
+// 		}
+// 	}
+
+// 	let project_mailObj = {
+// 		project_name : projectData.title,
+// 		email: projectData.projectOwner.email,
+// 	};
+	
+// 	const projectlins = new userProjects({
+// 		project_id: postData.project_id, 
+// 		user_id: projectData.mentor,
+// 		status: 1,
+// 	});
+	
+// 	try { 
+//         let result = await Projects.findOneAndUpdate(
+//             {_id: postData.project_id},
+//             obj
+//         );  
+// 		if(postData.status == 'active')
+// 		{ 
+// 			const userProjectData = await projectlins.save();
+// 			sendEmail(emailType.STUDENT_PROJECT_APPOROVAL_EMAIL,project_mailObj);
+// 		}
+// 		else
+// 		{
+// 			sendEmail(emailType.STUDENT_PROJECT_REJECT_EMAIL,project_mailObj);
+// 		}
+
+
+		
+// 		res.status(200).json({
+// 			status: 'success',
+// 			message: 'projects status update successfully',
+// 			data: result
+// 		});
+
+// 		let obj=[{
+// 			title:projectData.title+" "+ "project approved",
+// 			isRead:false
+// 		}]
+//         //console.log("projectData.mentor",notification.title)
+// 		//let users =await Users.find({_id:projectData.mentor})
+// 		let result2 = await userModel.findOneAndUpdate(
+// 			{ _id:projectData.mentor._id },
+// 			{ $push: { 'notification':{ $each: obj, $position: 0 } } },
+
+			
+// 		);
+// 		let result1 = await userModel.find(
+// 			{type:"student"}
+			
+// 		);
+
+// 		let obj1=[{
+// 			title:projectData.title,
+// 			isRead:false
+// 		}]
+		
+
+// 		for(const user of result1){
+// 			console.log("=======",user._id)
+// 			//user.notification= obj1
+// 			let result = await userModel.findOneAndUpdate(
+// 				{ _id:user._id },
+// 				{$push: { 'notification':{ $each: obj1, $position: 0 } }})
+// 			//await user.save()
+
+// 		}
+//     } catch (error) {
+// 		//console.log("error",error);
+//         res.status(400).json({
+// 			status: 'faild',
+// 			message: 'projects status update faild',
+// 		});
+//     }
+// }
+
 
 const _new = async function(req, res, next) {
 	try {

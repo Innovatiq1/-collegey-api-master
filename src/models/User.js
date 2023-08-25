@@ -137,6 +137,16 @@ const userSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
+		notification:[
+			{
+				title:{type:
+				String},
+				
+				isRead:{type:Boolean,
+					default: false,}
+			
+		}],
+			
 		student_profile: {
 			type: studentProfileSchema,
 			select: true,
