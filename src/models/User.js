@@ -347,7 +347,7 @@ userSchema.pre('findOneAndUpdate', async function() {
 	}
 });
 
-const User = mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);
 User.get = async function(query, limit, skip, sortBy, orderBy, selectDoc = '') {
 	const totalCount = await User.countDocuments(query);
 	const users = await User.find(query)
