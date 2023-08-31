@@ -327,7 +327,8 @@ exports.UpdateMentorProjectStatus  = async (req, res) => {
 		}
 		let obj=[{
 			title:projectData.title+" "+ "project approved",
-			isRead:false
+			isRead:false,
+			//projectType:projectData.projectType
 		}]
         //console.log("projectData.mentor",notification.title)
 		//let users =await Users.find({_id:projectData.mentor})
@@ -341,11 +342,25 @@ exports.UpdateMentorProjectStatus  = async (req, res) => {
 			{type:"student"}
 			
 		);
+		let obj1=[]
+		if(projectData.projectType==="collegey"){
 
-		let obj1=[{
+		 obj1=[{
 			title:projectData.title,
-			isRead:false
+			isRead:false,
+			projectType:"New Project by Collegey"
+
 		}]
+	   } else{
+		console.log("+===============Test")
+		obj1=[{
+			title:projectData.title,
+			isRead:false,
+			projectType:"New Project by Mentor"
+
+		}]
+
+	}
 		
 
 		for(const user of result1){

@@ -143,8 +143,14 @@ const userSchema = new mongoose.Schema(
 				String},
 				
 				isRead:{type:Boolean,
-					default: false}
-					
+					default: false},
+					createdAt: {
+						type: Date,
+						default: Date.now,
+					},
+					projectType:{
+						type:String
+					},
 			
 		}],
 			
