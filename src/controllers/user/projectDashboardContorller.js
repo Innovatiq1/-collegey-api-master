@@ -419,6 +419,7 @@ exports.getAllUserProjects = async (req, res, next) => {
 				$lookup: {
 					from: "projects",
 					let: { project_id: "$project_id" },
+					
 					pipeline: [
 						{
 							$match: {
@@ -478,8 +479,10 @@ exports.getAllUserProjects = async (req, res, next) => {
 								localField: '_id',
 								foreignField: 'project_id',
 								as: 'countdatat'
-							}
+							},
+							
 						},
+						
 						{ $addFields: { projectAvailableSlot: { $size: "$countdatat" } } },
 						{
 							$project: {
@@ -538,11 +541,21 @@ exports.getAllUserProjects = async (req, res, next) => {
 						},
 					],
 					as: "projectdata",
+					
 				},
+				
 			},
+			{
+				$group: {
+					_id: "$projectdata._id",
+					//project_id:"$projectdata._id",
+					projectdata: { $first: "$projectdata" }
+				  }
+				},
 			{
 				$unwind: "$projectdata"
 			},
+			
 			{
 				$match: filterConditions,
 			},
