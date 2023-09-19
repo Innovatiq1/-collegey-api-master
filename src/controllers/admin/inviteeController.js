@@ -95,6 +95,7 @@ export { _bulk as bulk};
 // }
 
 export async function activationCode(req,res,next){
+    console.log("=======test")
     try{
         const invitee_data = await inviteeGetService.getOne(req.params.id);
         const newpassword  = generatePassword(10, false, /[\w\d\?\-]/);
@@ -109,6 +110,7 @@ export async function activationCode(req,res,next){
             passwordChange: true,
         }; 
         const Save_user    = await inviteePostService.saveUserRequest(user_obj);
+        console.log("====Save_user====",Save_user)
         const invitestatus = await Invitees.findOneAndUpdate({_id: req.params.id},{status:'active'});
         let mail_subject;
         if(invitee_data.type == 'mentor')
@@ -127,6 +129,7 @@ export async function activationCode(req,res,next){
             type: mail_subject,
         };
         if(Save_user){
+            console.log("tsttt")
             sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
             sendEmail(emailType.STUDENT_WELCOME_EMAIL, user_mailObj);
             res.status(200).json({
@@ -134,6 +137,14 @@ export async function activationCode(req,res,next){
                 message: "Invitee updated successfully",
                 data: user_mailObj
             });
+        } else {
+           console.log("=2333=test")
+            res.status(200).json({
+                status: "success",
+                message: "Record allready existed in Users",
+                //data: user_mailObj
+            });
+
         }
     }catch(e){
         next(e);

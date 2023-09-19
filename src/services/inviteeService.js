@@ -22,7 +22,24 @@ exports.inviteePostService = {
 
     async saveUserRequest(requestData) {
         try{
-            return await UserModal.create(requestData);
+            console.log("enail",requestData.email)
+                let user = await UserModal.find({email:requestData.email});
+                console.log("user",user.length)
+                if(user.length >0){
+                    console.log("==========false")
+                    return  false
+
+                }else {
+                    console.log("==========true")
+                    await UserModal.create(requestData);
+                    
+                    return true
+                    
+
+                }
+
+        
+            
         }catch(e){
             throw e
         }
