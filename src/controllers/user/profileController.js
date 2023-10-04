@@ -74,6 +74,7 @@ exports.view = async function (req, res, next) {
 			userId,
 			getFields(req.user.type, req.user.user_type).profile
 		);
+		console.log("=====",profile)
 		if (profile) {
 			res.status(200).json({
 				status: 'success',
@@ -254,6 +255,10 @@ exports.updateMentorProfileStep03 = async function (req, res, next) {
 			project_name: postData.projectTitle,
 			email: postData.useremail,
 		};
+		let result1 = await UserModel.findOneAndUpdate(
+			{ _id: ObjectId(postData.user_id) },
+			{ "mentor_profile.projects.is_completed": true }
+		);
 		sendEmail(emailType.NEW_PROJECT_ADD_EMAIL, project_mailObj);
 		res.status(200).json({
 			status: 'Success',
