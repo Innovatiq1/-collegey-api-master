@@ -129,7 +129,8 @@ export async function activationCode(req,res,next){
             type: mail_subject,
         };
         if(Save_user){
-            console.log("tsttt")
+            console.log("terttts")
+            console.log("tstttffffff")
             sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
             sendEmail(emailType.STUDENT_WELCOME_EMAIL, user_mailObj);
             res.status(200).json({
@@ -182,13 +183,14 @@ export async function activationInviteCode(req,res,next){
         {
             mail_subject = 'Student Info';
         }
-
+      console.log("sabe",Save_user )
         let user_mailObj = {
             user_id : Save_user.id,
             email: Save_user.email,
             password: newpassword,
             type: mail_subject,
         }; 
+        console.log("====",user_mailObj)
         if(Save_user){
             sendEmail(emailType.INVITE_USER_REGIS_EMAIL,user_mailObj);
             sendEmail(emailType.STUDENT_WELCOME_EMAIL, user_mailObj);

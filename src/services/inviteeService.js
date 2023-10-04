@@ -31,9 +31,9 @@ exports.inviteePostService = {
 
                 }else {
                     console.log("==========true")
-                    await UserModal.create(requestData);
+                    let user1= await UserModal.create(requestData);
                     
-                    return true
+                    return user1
                     
 
                 }
